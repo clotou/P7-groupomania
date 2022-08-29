@@ -2,12 +2,13 @@ const Post = require('../models/Post')
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
-   const postObject = JSON.parse(req.body.post);
+console.log(req.body);
+   const postObject = req.body;
    delete postObject._id;
    const post = new Post({
        ...postObject,
-       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        likes: 0,
+       imageUrl: (typeof req.file !== 'undefined') ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
+       likes: 0,
         usersLiked: [],
    });
    post.save()
@@ -49,14 +50,7 @@ exports.like = (req, res, next) => {
           usersLiked: req.body.userId })
             .then(post => res.status(200).json({message: 'Like ajouté !'}))
             .catch(error => res.status(400).json({message: "Problème d'ajout du like !"}))
-    } else if (req.body.like === -1) {
-        Post.updateOne({ _id: req.params.id }, {
-          $inc: {dislikes: +1},
-          usersDisliked: req.body.userId })
-            .then(post => res.status(200).json({message: 'Dislike ajouté !'}))
-            .catch(error => res.status(400).json({message: "Problème d'ajout du dislike !"}))
-    }
-    else {
+    } else {
         Post.findOne({ _id: req.params.id })
             .then(post => {
                 if (post.usersLiked.includes(req.body.userId)) {
@@ -66,13 +60,7 @@ exports.like = (req, res, next) => {
                     $inc: {likes: -1 }})
                         .then(post => { res.status(200).json({message: 'Like supprimé !'}) })
                         .catch(error => res.status(400).json({message: "Problème de suppression du like !"}))
-                } else if (post.usersDisliked.includes(req.body.userId)) {
-                    Post.updateOne({ _id: req.params.id },{$pull: { usersDisliked: req.body.userId},
-                      $inc: {dislikes: -1 }})
-                        .then(post => { res.status(200).json({message: 'Dislike supprimé !'}) })
-                        .catch(error => res.status(400).json({message: "Problème de suppression du dislike !"}))
-                }
-            })
+                }})
             .catch(error => res.status(400).json({ message: "Problème d'identification du post pour le vote !" }))
     }
 };

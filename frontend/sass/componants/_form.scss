@@ -1,13 +1,23 @@
-.form-container {
-  display: flex;
+.wall-login {
+position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
+    top: 20px;
+    z-index: -1;
+}
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 40%;
 }
 
 .logform-bg {
   position: relative;
   top: 100px;
-  padding: 30px 80px;
+  padding: 20px 50px 10px 50px;
   border-radius: 30px;
   width: 300px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
@@ -35,10 +45,7 @@
   justify-content: space-between;
 }
 
-@media screen and (max-width: 1000px) {
-  // .form-container {
-
-  // }
+@media screen and (max-width: 900px) {
   .logform-bg {
     padding: 30px 25px;
     // display: inline-block;

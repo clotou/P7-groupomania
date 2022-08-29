@@ -1,0 +1,49 @@
+.regular-button,
+.regular-button input[type=submit] {
+  padding: 7px 15px;
+  border-color: transparent;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.bt-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.blue-bt input[type=submit] {
+  background-color: $color-primary;
+  color: white;
+}
+
+.gray-bt input[type=submit] {
+  background-color: $color-disable;
+  color: black;
+}
+.pink-bt{
+    background-color: $color-secondary;
+    color: black;
+}
+
+.red-bt {
+  background-color: $color-tertiary;
+  color: white;
+  margin-left: 5px;
+}
+
+.picture-bt {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.plus{
+  font-size: 22px;
+}
+.icone-picture {
+  width: 50px;
+  margin-left: 20px;
+  opacity: 0.8;
+}
