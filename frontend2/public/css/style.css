@@ -79,9 +79,13 @@ a:active {
 .log-links {
   text-align: center;
   margin-bottom: 10px;
-  font-weight: 600; }
+  font-weight: 600;
+  color: grey; }
   .log-links--effect:hover {
-    color: #FFD7D7; }
+    color: #FD2D01; }
+
+.signIn, .signUp {
+  color: black; }
 
 .logform-bg {
   position: relative;

@@ -18,9 +18,14 @@ position: relative;
  text-align: center;
  margin-bottom: 10px;
  font-weight: 600;
+ color: grey;
  &--effect:hover {
-  color: $color-secondary;
+  color: $color-tertiary;
  }
+}
+
+.signIn, .signUp {
+  color: black;
 }
 .logform-bg {
   position: relative;
