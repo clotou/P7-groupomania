@@ -2,7 +2,7 @@
 <!-- formulaire sign in -->
   <section class="form-container" id="signinform">
     <div class="logform-bg">
-      <div class="log-links">
+
         <div class="log-links">
             <span class="signIn">SingIn</span> / <span class="log-links--effect"><router-link to="/signup" @click="switchToSignup()">SignUp</router-link></span>
           </div>
@@ -18,13 +18,12 @@
               <p id="passwordErrorMsg"></p>
             </div>
             <div class="submit-section">
-              <div class="log__form__submit--signIn regular-button" disabled>
-                <input type="submit" value="SingIn" id="signIn" @click="submit"/>
+              <div class="log__form__submit--signIn regular-button blue-bt" disabled>
+                <input type="submit" value="SingIn" id="signIn"/>
               </div>
             </div>
           </form>
       </div>
-    </div>
   </section>
 </template>
 
@@ -39,9 +38,35 @@ export default {
        }
     },
     methods: {
-    switchToSignup() {
-      this.mode = "signup";
+    switchToSignin() {
+      this.mode = "signin";
     },
+    signup () {
+      fetch(`http://localhost:5173/signup`)
+      .then(function(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    })
+    .then(function(data) {
+    console.log(data);
+    // if (purchaseStorage) {
+    //   for (p of purchaseStorage) {
+    //     const user = data.find((d) => d._id === p.id);
+    //     if (product) {
+    //       p.price = product.price;
+    //     }
+    //   }
+    // }
+    // getItem();
+    // totalItem();
+    // getForm();
+    // postForm();
+  })
+  .catch(function(err) {
+    console.log("Il y a un trou dans le canap'.");
+});
+    }
     // signin() {
     //     axios.post("http://localhost:3000/api/auth/", {
     //       email: this.email,

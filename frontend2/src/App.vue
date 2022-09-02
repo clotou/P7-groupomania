@@ -7,7 +7,9 @@
 <script>
 import signinform from "./components/signinform.vue";
 import signupform from  "./components/signupform.vue";
-import home from "./components/home.vue";
+import publish from "./components/publish.vue";
+import post from "./components/post.vue";
+import home from "./views/home.vue";
 
 export default {
   name: "App",
@@ -15,6 +17,6 @@ export default {
     return {
     };
   },
-  components: {signinform, signupform, home}
+  components: {signinform, signupform, publish, post,home},
 };
 </script>

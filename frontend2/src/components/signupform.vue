@@ -1,11 +1,11 @@
 <template>
 <!-- formulaire signup -->
-<section class="form-container" id="loginform">
+<section class="form-container" id="signupform">
       <div class="logform-bg">
         <div class="log-links">
           <span class="log-links--effect"><router-link to="/" @click="switchToSignin()">SingIn</router-link></span> / <span class="signUp">SignUp</span>
         </div>
-        <form method="post" class="log__form" id="signUp-form" @submit.prevent = "envoi">
+        <form v-on:submit.prevent="signup">
           <div class="log__form__question">
             <label for="lastName">Nom:</label>
             <input type="text" name="lastName" id="lastName" required v-model="text" placeholder="  Dupont" pattern="^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$"/>
@@ -29,8 +29,8 @@
             <p id="passwordErrorMsg"></p>
           </div>
           <div class="submit-section">
-            <div class="log__form__submit--signUp regular-button blue-bt">
-              <input type="submit" value="SingUp" id="signUp" @click="submit"/>
+            <div class="log__form__submit--signIn regular-button blue-bt" disabled>
+               <input type="submit" value="SingUp" id="signUp" v-on:click="submit"/>
             </div>
           </div>
         </form>
@@ -54,43 +54,31 @@ export default {
     switchToSignin() {
       this.mode = "signin";
     },
-    // signup() {
-    //     axios.post("http://localhost:3000/api/auth/signup", {
-    // firstName: this.firstName,
-    // lastName: this.lastName,
-    //       email: this.email,
-    //       password: this.password
-    //     })
-    //     .then(function (response) {
-    //         var statut = response.status;
-    //         if (statut === 201 || statut === 200) {
-    //         Swal.fire({
-    //             text: "Compte créé, veuillez vous connecter.",
-    //             footer: "Connexion en cours...",
-    //             icon: "success",
-    //             timer: 3000,
-    //             showConfirmButton: false,
-    //             timerProgressBar: true,
-    //             willClose: () => { router.push("/signup") }
-    //         })
-    //         }
-    //     })
-    //     .catch(function (error) {
-    //             const codeError = error.message.split("code ")[1]
-    //             let messageError = ""
-    //             switch (codeError){
-    //                 case "401": messageError = "Adresse email déjà utilisée !";break
-    //             }
-    //             Swal.fire({
-    //                 title: "Une erreur est survenue",
-    //                 text: messageError || error.mesage,
-    //                 icon: "error",
-    //                 timer: 3500,
-    //                 showConfirmButton: false,
-    //                 timerProgressBar: true
-    //             })
-    //         });
-    // }
+    submit : function(){
+        fetch(`http://localhost:3000`,
+        {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password
+        })
+        .then(response => {
+          let reponse = response.data;
+
+            let userObject = JSON.stringify(reponse);
+            this.$localStorage.set("user", userObject);
+
+            let user = JSON.parse(this.$localStorage.get("user"));
+            token = user.token;
+            if (user.status == "admin") {
+              window.location.href = "/home";
+              location.reload(true);
+            } else {
+              window.location.href = "/home";
+              location.reload(true);
+            }
+          })
+        }
   }
 }
 </script>

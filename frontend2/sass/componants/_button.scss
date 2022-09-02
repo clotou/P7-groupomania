@@ -16,6 +16,10 @@
 .blue-bt input[type=submit] {
   background-color: $color-primary;
   color: white;
+  &:hover {
+    background-color: white;
+    color: $color-primary;
+  }
 }
 
 .gray-bt input[type=submit] {

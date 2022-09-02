@@ -27,6 +27,11 @@ position: relative;
 .signIn, .signUp {
   color: black;
 }
+
+#signUp :hover {
+  background-color: $color-primary !important;
+  color: white;
+}
 .logform-bg {
   position: relative;
   top: 150px;
