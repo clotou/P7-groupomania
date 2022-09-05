@@ -12,8 +12,9 @@
 </template>
 
 <script>
-  import publish from "../components/publish.vue"
   import post from "../components/post.vue"
+  import publish from "../components/publish.vue"
+
 
   export default {
     name: "home",

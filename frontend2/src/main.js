@@ -7,9 +7,14 @@ import router from "./router/index"
 createApp(App).use(router).mount('#app')
 
 new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+  el: '#app',
+  render(h) { return h(App) }
+})
+
+// new Vue({
+//   router,
+//   render: h => h(App)
+// }).$mount('#app')
 
 // createApp(App).mount('#app')
 

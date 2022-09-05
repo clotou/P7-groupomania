@@ -30,7 +30,7 @@
           </div>
           <div class="submit-section">
             <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-               <input type="submit" value="SingUp" id="signUp" v-on:click="submit"/>
+               <input type="submit" value="SingUp" id="signUp" @click="sendSignup()"/>
             </div>
           </div>
         </form>
@@ -54,14 +54,19 @@ export default {
     switchToSignin() {
       this.mode = "signin";
     },
-    submit : function(){
-        fetch(`http://localhost:3000`,
-        {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        password: this.password
-        })
+    sendSignup() {
+        fetch(`http://localhost:3000/api/login`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer${token}`
+              },
+          body: JSON.stringify({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            password: this.password
+          }),})
         .then(response => {
           let reponse = response.data;
 

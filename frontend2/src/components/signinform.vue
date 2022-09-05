@@ -38,70 +38,38 @@ export default {
        }
     },
     methods: {
-    switchToSignin() {
-      this.mode = "signin";
+    switchToSignup() {
+      this.mode = "signup";
     },
-    signup () {
-      fetch(`http://localhost:5173/signup`)
-      .then(function(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    })
-    .then(function(data) {
-    console.log(data);
-    // if (purchaseStorage) {
-    //   for (p of purchaseStorage) {
-    //     const user = data.find((d) => d._id === p.id);
-    //     if (product) {
-    //       p.price = product.price;
-    //     }
-    //   }
-    // }
-    // getItem();
-    // totalItem();
-    // getForm();
-    // postForm();
-  })
-  .catch(function(err) {
-    console.log("Il y a un trou dans le canap'.");
-});
-    }
-    // signin() {
-    //     axios.post("http://localhost:3000/api/auth/", {
-    //       email: this.email,
-    //       password: this.password
-    //     })
-    //     .then(function (response) {
-    //         var statut = response.status;
-    //         if (statut === 201 || statut === 200) {
-    //         Swal.fire({
-    //             text: "Compte créé, veuillez vous connecter.",
-    //             footer: "Connexion en cours...",
-    //             icon: "success",
-    //             timer: 3000,
-    //             showConfirmButton: false,
-    //             timerProgressBar: true,
-    //             willClose: () => { router.push("/signup") }
-    //         })
-    //         }
-    //     })
-    //     .catch(function (error) {
-    //             const codeError = error.message.split("code ")[1]
-    //             let messageError = ""
-    //             switch (codeError){
-    //                 case "401": messageError = "Adresse email déjà utilisée !";break
-    //             }
-    //             Swal.fire({
-    //                 title: "Une erreur est survenue",
-    //                 text: messageError || error.mesage,
-    //                 icon: "error",
-    //                 timer: 3500,
-    //                 showConfirmButton: false,
-    //                 timerProgressBar: true
-    //             })
-    //         });
-    // }
+    sendSignup() {
+        fetch(`http://localhost:3000/api/login`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer${token}`
+              },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password
+          }),})
+        .then(response => {
+          let reponse = response.data;
+
+            let userObject = JSON.stringify(reponse);
+            this.$localStorage.set("user", userObject);
+
+            let user = JSON.parse(this.$localStorage.get("user"));
+            token = user.token;
+            if (user.status == "admin") {
+              window.location.href = "/home";
+              location.reload(true);
+            } else {
+              window.location.href = "/home";
+              location.reload(true);
+            }
+          })
+        }
   }
 }
 </script>
+
