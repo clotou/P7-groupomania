@@ -2,11 +2,17 @@
     position: absolute;
     top: 100px;
     z-index: -1;
+    width: 50%;
+    margin: auto;
   }
 .post {
   width: 40%;
   margin: auto;
-  flex-wrap: wrap;
+
+}
+.posts {
+  width: 100%;
+  margin: auto;
 }
 .post-container {
   width: 85%;

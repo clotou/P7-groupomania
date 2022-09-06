@@ -41,49 +41,50 @@
 
 <script>
 export default {
-    name: 'signupform',
-    data(){
-      return{
-        firstName: "",
-        lastName: "",
-        email:"",
-        password:""
-       }
-    },
-    methods: {
+  name: 'signupform',
+  data(){
+    return{
+      firstName: "",
+      lastName: "",
+      email:"",
+      password:""
+    }
+  },
+  methods: {
     switchToSignin() {
       this.mode = "signin";
     },
     sendSignup() {
-        fetch(`http://localhost:3000/api/login`, {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            'Authorization': `Bearer${token}`
-              },
-          body: JSON.stringify({
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            password: this.password
-          }),})
-        .then(response => {
-          let reponse = response.data;
-
-            let userObject = JSON.stringify(reponse);
-            this.$localStorage.set("user", userObject);
-
-            let user = JSON.parse(this.$localStorage.get("user"));
-            token = user.token;
-            if (user.status == "admin") {
-              window.location.href = "/home";
-              location.reload(true);
-            } else {
-              window.location.href = "/home";
-              location.reload(true);
-            }
-          })
-        }
+      fetch(`http://localhost:3000/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': `Bearer${token}`
+        },
+        body: JSON.stringify({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password
+        }),
+      })
+      .then(response => {
+        let reponse = response.data;
+        let userObject = JSON.stringify(reponse);
+        this.$localStorage.set("user", userObject);
+        let user = JSON.parse(this.$localStorage.get("user"));
+        token = user.token;
+        window.location.href = "/home";
+        location.reload(true);
+        // if (user.status == "admin") {
+        //   window.location.href = "/home";
+        //   location.reload(true);
+        // } else {
+        //   window.location.href = "/home";
+        //   location.reload(true);
+        // }
+      })
+    }
   }
 }
 </script>

@@ -16,7 +16,7 @@
           </div>
           <div class="bt-bar">
             <div>
-              <button type="submit" class="regular-button" id="annuler">Annuler</button>
+              <button type="submit" class="regular-button" id="annuler" @click="reload()">Annuler</button>
             </div>
             <div class="blue-bt">
               <input
@@ -31,7 +31,8 @@
           <div class="bt-bar">
             <div class="picture-bt-container">
               <button class="regular-button picture-bt">
-                <h3 class="plus">+</h3>
+                <input type="file" value="+">
+                <!-- <h3 class="plus">+</h3> -->
                 <img
                   src="../../public/ICONE PICTURE.png"
                   alt="icone picture"
@@ -61,38 +62,34 @@ export default {
        }
     },
     methods: {
+      relaod() {
+        location.reload(true);
+      },
     sendPost() {
-        fetch(`http://localhost:3000/api/posts`, {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            'Authorization': `Bearer${token}`
-              },
-            body: JSON.stringify({
-            title: this.title,
-            date: this.date,
-            imageUrl: this.imageUrl,
-            userId: this.userId,
-            likes: this.likes,
-            usersLiked: this.userLiked,
-              }),})
-        .then(response => {
-          let reponse = response.data;
-
-            let postObject = JSON.stringify(reponse);
-            this.$localStorage.set("post", postObject);
-
-            let user = JSON.parse(this.$localStorage.get("user"));
-            token = user.token;
-            if (user.status == "admin" || this.userId == post.userId) {
-              window.location.href = "/home";
-              location.reload(true);
-            } else {
-              window.location.href = "/home";
-              location.reload(true);
-            }
-          })
-        }
+      fetch(`http://localhost:3000/api/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': `Bearer${token}`
+        },
+        body: JSON.stringify({
+          title: this.title,
+          date: this.date,
+          imageUrl: this.imageUrl,
+          userId: this.userId,
+          likes: this.likes,
+          usersLiked: this.userLiked,
+        }),
+      })
+      .then(response => {
+        let reponse = response.data;
+        let postObject = JSON.stringify(reponse);
+        this.$localStorage.set("post", postObject);
+        let user = JSON.parse(this.$localStorage.get("post"));
+        token = user.token;
+        location.reload(true);
+      })
+    }
   }
 }
 </script>

@@ -8,7 +8,7 @@
         <div class="post-container posted-post-spaces">
           <div class="date-container">
             <!-- createdAt ? -->
-            <h3>{{post.created_at.fromNow()}}</h3>
+            <h3>{{ dateCreated(post.createdAt) }}</h3>
             <!-- <h3>22/07/22 - 10:20</h3> -->
           </div>
           <div class="title-container">
@@ -24,7 +24,7 @@
           <!-- </div> -->
       <div class="post-block-bottom">
         <div class="like-side">
-          <p id="likes">{{like}}</p>
+          <p id="likes">{{post.like}}</p>
           <!-- <p id="likes">4</p> -->
           <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb">
         </div>
@@ -55,7 +55,7 @@ export default {
        }
     },
     methods: {
-    updatePost() {
+      updatePost() {
         fetch(`http://localhost:3000/api/posts`, {
           method: 'POST',
           headers: {
@@ -72,54 +72,42 @@ export default {
               }),})
         .then(response => {
           let reponse = response.data;
-
-            let postObject = JSON.stringify(reponse);
-            this.$localStorage.set("post", postObject);
-
-            let user = JSON.parse(this.$localStorage.get("user"));
-            token = user.token;
-            if (user.status == "admin" || this.userId == post.userId) {
-              window.location.href = "/home";
-              location.reload(true);
-            } else {
-              window.location.href = "/home";
-              location.reload(true);
-            }
-          })
-        },
+          let postObject = JSON.stringify(reponse);
+          this.$localStorage.set("post", postObject);
+          let user = JSON.parse(this.$localStorage.get("user"));
+          token = user.token;
+          window.location.href = "/home";
+            location.reload(true);
+        })
+      },
         deletePost() {
-        fetch(`http://localhost:3000/api/posts`, {
-          method: 'DELETE',
-          headers: {
-            'Content-type': 'application/json',
-            'Authorization': `Bearer${token}`
-              },
-          body: JSON.stringify({
-            title: this.title,
-            date: this.date,
-            imageUrl: this.imageUrl,
-            userId: this.userId,
-            likes: this.like,
-            usersLiked: this.userLiked,
-              }),})
-        .then(response => {
-          let reponse = response.data;
-
+          fetch(`http://localhost:3000/api/posts`, {
+            method: 'DELETE',
+            headers: {
+              'Content-type': 'application/json',
+              'Authorization': `Bearer${token}`
+                },
+            body: JSON.stringify({
+              title: this.title,
+              date: this.date,
+              imageUrl: this.imageUrl,
+              userId: this.userId,
+              likes: this.like,
+              usersLiked: this.userLiked,
+            }),
+          })
+          .then(response => {
+            let reponse = response.data;
             let postObject = JSON.stringify(reponse);
             this.$localStorage.delete("post", postObject);
-
-            let user = JSON.parse(this.$localStorage.get("user"));
-            token = user.token;
-            if (user.status == "admin" || this.userId == post.userId) {
-              window.location.href = "/home";
-              location.reload(true);
-            } else {
-              window.location.href = "/home";
-              location.reload(true);
-            }
+            window.location.href = "/home";
+            location.reload(true);
           })
-        }
+        },
+      dateCreated(date) {
+        return dayjs(date).format("dddd D MMMM YYYY", "fr");
+      }
+    }
   }
-}
 </script>
 
