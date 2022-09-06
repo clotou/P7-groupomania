@@ -24,7 +24,7 @@
           <!-- </div> -->
       <div class="post-block-bottom">
         <div class="like-side">
-          <p id="likes">{{post.like}}</p>
+          <!-- <p id="likes">{{post.likes}}</p> -->
           <!-- <p id="likes">4</p> -->
           <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb">
         </div>
@@ -73,10 +73,10 @@ export default {
         .then(response => {
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
-          this.$localStorage.set("post", postObject);
           let user = JSON.parse(this.$localStorage.get("user"));
           token = user.token;
-          window.location.href = "/home";
+            this.$localStorage.set("post", postObject);
+            window.location.href = "/home";
             location.reload(true);
         })
       },
@@ -86,24 +86,26 @@ export default {
             headers: {
               'Content-type': 'application/json',
               'Authorization': `Bearer${token}`
-                },
-            body: JSON.stringify({
-              title: this.title,
-              date: this.date,
-              imageUrl: this.imageUrl,
-              userId: this.userId,
-              likes: this.like,
-              usersLiked: this.userLiked,
-            }),
-          })
+                }
+            // body: JSON.stringify({
+            //   title: this.title,
+            //   date: this.date,
+            //   imageUrl: this.imageUrl,
+            //   userId: this.userId,
+            //   likes: this.like,
+            //   usersLiked: this.userLiked,
+            // }),
+          // })
           .then(response => {
-            let reponse = response.data;
-            let postObject = JSON.stringify(reponse);
-            this.$localStorage.delete("post", postObject);
+            // let reponse = response.data;
+            // let postObject = JSON.stringify(reponse);
+            this.$localStorage.remove("post");
+            alert('Le post a été supprimé')
             window.location.href = "/home";
             location.reload(true);
           })
-        },
+        })
+      },
       dateCreated(date) {
         return dayjs(date).format("dddd D MMMM YYYY", "fr");
       }
