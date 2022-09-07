@@ -9,17 +9,17 @@
           <form method="post" class="log__form" id="signIn-form">
             <div class="log__form__question">
               <label for="email">Email:</label>
-              <input type="email" name="email" id="email" required v-model="text" placeholder="  marie.dupont@groupomania.com"/>
+              <input type="email" name="email" id="email" required v-model="email" placeholder="  marie.dupont@groupomania.com"/>
               <p id="emailErrorMsg"></p>
             </div>
             <div class="log__form__question">
               <label for="password">Password:</label>
-              <input type="password" name="password" id="password" required v-model="text" placeholder="  123ABC!"/>
+              <input type="password" name="password" id="password" required v-model="password" placeholder="  123ABC!"/>
               <p id="passwordErrorMsg"></p>
             </div>
             <div class="submit-section">
               <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-                <input type="submit" value="SingIn" id="signIn" @click="sendSignin()"/>
+                <router-link to="/home"><input type="submit" value="SingIn" id="signIn" @click="sendSignin()"/></router-link>
               </div>
             </div>
           </form>
@@ -57,8 +57,10 @@ export default {
         let userObject = JSON.stringify(reponse);
         this.$localStorage.set("user", userObject);
         let user = JSON.parse(this.$localStorage.get("user"));
-        token = user.token;
-        window.location.href = "/home";
+        // token = user.token;
+        // window.location.href = "/home";
+
+
         // location.reload(true);
         // if (user.status == "admin") {
         //   window.location.href = "/home";

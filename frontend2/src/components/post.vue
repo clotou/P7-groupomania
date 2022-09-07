@@ -1,6 +1,6 @@
 <template>
-  <div id="post">
-      <div class="post-block-up" v-for="post in posts" :key="post.idPOST">
+  <div class="post" >
+      <div class="post-block-up" v-for="post in allposts" :key="post.idPOST">
         <div class="name-container postSpaces">
           <p>{{ post.userId.firstName }} {{ post.userId.lastName }}</p>
           <!-- <p>Marie D</p> -->
@@ -16,7 +16,7 @@
             <!-- <h2 id="title">Marc et Antoine du markeitng grillés en pause café</h2> -->
           </div>
           <div class="picture-container">
-            <img v-bind:src="post.imageUrl" alt="2 persons speaking" class="picpost">
+            <img v-bind:src="post.imageUrl" alt="" class="picpost">
             <!-- <img src="../../public/marcantoine.png" alt="l'image publiée" class="picpost"> -->
           </div>
         </div>
