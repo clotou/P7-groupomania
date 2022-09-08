@@ -2,7 +2,7 @@
   <div class="post" >
       <div class="post-block-up" v-for="post in allposts" :key="post.idPOST">
         <div class="name-container postSpaces">
-          <p>{{ post.userId.firstName }} {{ post.userId.lastName }}</p>
+          <p>{{ userId.firstName }} {{ userId.lastName }}</p>
           <!-- <p>Marie D</p> -->
         </div>
         <div class="post-container posted-post-spaces">
@@ -12,11 +12,11 @@
             <!-- <h3>22/07/22 - 10:20</h3> -->
           </div>
           <div class="title-container">
-            <h2 id="title">{{post.title}}</h2>
+            <h2 id="title">{{title}}</h2>
             <!-- <h2 id="title">Marc et Antoine du markeitng grillés en pause café</h2> -->
           </div>
           <div class="picture-container">
-            <img v-bind:src="post.imageUrl" alt="" class="picpost">
+            <img v-bind:src="imageUrl" alt="" class="picpost">
             <!-- <img src="../../public/marcantoine.png" alt="l'image publiée" class="picpost"> -->
           </div>
         </div>
@@ -25,8 +25,9 @@
       <div class="post-block-bottom">
         <div class="like-side">
           <!-- <p id="likes">{{post.likes}}</p> -->
-          <!-- <p id="likes">4</p> -->
-          <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb">
+          <p id="likes">{{usersLiked.length}}</p>
+          <img v-if="likes === 1" src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb"/>
+          <img v-else src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" @click="likedislike()"/>
         </div>
         <div class="button-side">
           <div>
@@ -67,7 +68,7 @@ export default {
             date: this.date,
             imageUrl: this.imageUrl,
             userId: this.userId,
-            likes: this.like,
+            likes: this.likes,
             usersLiked: this.userLiked,
               }),})
         .then(response => {
@@ -108,6 +109,13 @@ export default {
       },
       dateCreated(date) {
         return dayjs(date).format("dddd D MMMM YYYY", "fr");
+      },
+      likedislike() {
+        if(likes == 1) {
+          likes == 0
+        } else {
+          likes == 1
+        }
       }
     }
   }

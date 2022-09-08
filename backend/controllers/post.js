@@ -9,7 +9,7 @@ console.log(req.body);
        ...postObject,
        imageUrl: (typeof req.file !== 'undefined') ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
        likes: 0,
-        usersLiked: [],
+       usersLiked: [],
    });
    post.save()
    .then(() =>  res.status(201).json({message: 'Post enregistré !'}))
