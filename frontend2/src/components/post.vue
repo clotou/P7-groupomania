@@ -1,5 +1,5 @@
 <template>
-  <div class="post" >
+  <div class="post">
       <div class="post-block-up" v-for="post in allposts" :key="post.idPOST">
         <div class="name-container postSpaces">
           <p>{{ userId.firstName }} {{ userId.lastName }}</p>
@@ -8,7 +8,7 @@
         <div class="post-container posted-post-spaces">
           <div class="date-container">
             <!-- createdAt ? -->
-            <h3>{{ dateCreated(post.createdAt) }}</h3>
+            <h3>{{ dateCreated(date.createdAt) }}</h3>
             <!-- <h3>22/07/22 - 10:20</h3> -->
           </div>
           <div class="title-container">
@@ -22,19 +22,19 @@
         </div>
       </div>
           <!-- </div> -->
-      <div class="post-block-bottom">
+      <div class="post-block-bottom" v-if="userId == _Id || userId.admin == true">
         <div class="like-side">
           <!-- <p id="likes">{{post.likes}}</p> -->
           <p id="likes">{{usersLiked.length}}</p>
-          <img v-if="likes === 1" src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb"/>
+          <img v-if="likes === 1" src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb" @click="likedislike()"/>
           <img v-else src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" @click="likedislike()"/>
         </div>
         <div class="button-side">
           <div>
-            <button type="submit" class="regular-button pink-bt" id="modifier" @submit.prevent= "updatePost">Modifier</button>
+            <button type="submit" class="regular-button pink-bt" id="modifier" @click= "updatePost">Modifier</button>
           </div>
           <div>
-            <button type="submit" class="regular-button red-bt" id="supprimer"  @submit.prevent= "deletePost">Supprimer</button>
+            <button type="submit" class="regular-button red-bt" id="supprimer"  @click= "deletePost">Supprimer</button>
           </div>
         </div>
       </div>
@@ -117,7 +117,15 @@ export default {
           likes == 1
         }
       }
+    },
+    computed: {
+    sortedposts: function() {
+        this.posts.sort( ( a, b) => {
+            return new Date(a.date) - new Date(b.date);
+        });
+        return this.posts;
     }
+}
   }
 </script>
 

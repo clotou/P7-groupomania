@@ -57,8 +57,8 @@ export default {
         let userObject = JSON.stringify(reponse);
         this.$localStorage.set("user", userObject);
         let user = JSON.parse(this.$localStorage.get("user"));
-        // token = user.token;
-        // window.location.href = "/home";
+        token = user.token;
+        window.location.href = "/home";
 
 
         // location.reload(true);
