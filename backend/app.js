@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const postRoute = require('./routes/post');
 const userRoute = require('./routes/user');
 const path = require('path');
+
 
 mongoose.connect('mongodb+srv://clotou:Levivet63@cluster0.k4jpk.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -24,5 +26,6 @@ app.use(express.json());
 app.use('/api/posts', postRoute);
 app.use('/api/auth', userRoute);
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use(cors());
 
 module.exports = app;

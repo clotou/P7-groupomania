@@ -30,7 +30,7 @@
           </div>
           <div class="submit-section">
             <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-              <router-link to="/home"><input type="submit" value="SingUp" id="signUp" @click="sendSignup()"/></router-link>
+              <input type="submit" value="SingUp" id="signUp" @click="sendSignup()"/>
             </div>
           </div>
         </form>
@@ -55,11 +55,16 @@ export default {
       this.mode = "signin";
     },
     sendSignup() {
-      fetch(`http://localhost:3000/api/login`, {
+      console.log(this.firstName)
+      if (this.firstName == "" || this.lastName == "" || this.email == "" || this.password == "") {
+        alert(
+          "Veuillez saisir vos coordonnées pour créer un compte"
+        );
+      } else {
+      fetch(`http://localhost:3000/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
-          'Authorization': `Bearer${token}`
         },
         body: JSON.stringify({
           firstName: this.firstName,
@@ -69,13 +74,15 @@ export default {
         }),
       })
       .then(response => {
+        console.log(response)
         let reponse = response.data;
-        let userObject = JSON.stringify(reponse);
-        this.$localStorage.set("user", userObject);
-        let user = JSON.parse(this.$localStorage.get("user"));
-        token = user.token;
-        window.location.href = "/home";
-        location.reload(true);
+        // let userObject = JSON.stringify(reponse);
+        // this.$localStorage.set("user", userObject);
+
+        // let user = JSON.parse(this.$localStorage.get("user"));
+        // token = user.token;
+        window.location.href = "/";
+        // location.reload(true);
 
 
         // if (user.status == "admin") {
@@ -86,6 +93,7 @@ export default {
         //   location.reload(true);
         // }
       })
+    }
     }
   }
 }

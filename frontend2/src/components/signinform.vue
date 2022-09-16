@@ -19,7 +19,7 @@
             </div>
             <div class="submit-section">
               <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-                <router-link to="/home"><input type="submit" value="SingIn" id="signIn" @click="sendSignin()"/></router-link>
+                <input type="submit" value="SingIn" id="signIn" @click="sendSignin()"/>
               </div>
             </div>
           </form>
@@ -42,34 +42,51 @@ export default {
       this.mode = "signup";
     },
     sendSignin() {
-      fetch(`http://localhost:3000/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-          'Authorization': `Bearer${token}`
-            },
-        body: JSON.stringify({
-          email: this.email,
-          password: this.password
-        }),})
-      .then(response => {
-        let reponse = response.data;
-        let userObject = JSON.stringify(reponse);
-        this.$localStorage.set("user", userObject);
-        let user = JSON.parse(this.$localStorage.get("user"));
-        token = user.token;
-        window.location.href = "/home";
+      let token = "";
+      if (this.email == "" || this.password == "") {
+        alert(
+          "Veuillez saisir votre email et votre mot de passe pour vous connecter"
+        );
+      } else {
+        console.log(this.email)
+        fetch(`http://localhost:3000/api/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer${token}`
+              },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password
+          }),})
+        .then(response => {
+          console.log(response)
+          let reponse = response.data;
+          let userObject = JSON.stringify(reponse);
+          this.$localStorage.set("user", userObject);
+          let user = JSON.parse(this.$localStorage.get("user"));
 
-
-        // location.reload(true);
-        // if (user.status == "admin") {
-        //   window.location.href = "/home";
-        //   location.reload(true);
-        // } else {
-        //   window.location.href = "/home";
-        //   location.reload(true);
-        // }
-      })
+          // if(token = user.token) {
+          //   window.location.href = "/home";
+          // }else{
+          //   window.location.href = "/";
+          //   alert("Veuillez vous inscrire en cliquant sur signup")
+          // };
+          console.log(this.email)
+          token = user.token;
+          this.$router.push('home')
+          // window.location.href = "/home";
+          // location.reload(true);
+          // if (user.status == "admin") {
+          //   window.location.href = "/home";
+          //   location.reload(true);
+          // } else {
+          //   window.location.href = "/home";
+          //   location.reload(true);
+          // }
+        })
+        .catch(error => res.status(400).json({message: "Probleme d'inscription !"}))
+      }
     }
   }
 }

@@ -6,10 +6,10 @@ import router from "./router/index"
 
 createApp(App).use(router).mount('#app')
 
-new Vue({
-  el: '#app',
-  render(h) { return h(App) }
-})
+// new vue({
+//   el: '#app',
+//   render(h) { return h(App) }
+// })
 
 // new Vue({
 //   router,
