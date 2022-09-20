@@ -19,7 +19,7 @@
             </div>
             <div class="submit-section">
               <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-                <input type="submit" value="SingIn" id="signIn" @click="sendSignin()"/>
+                <input type="button" value="SingIn" id="signIn" @click="sendSignin()"/>
               </div>
             </div>
           </form>
@@ -59,12 +59,28 @@ export default {
             email: this.email,
             password: this.password
           }),})
-        .then(response => {
-          console.log(response)
-          let reponse = response.data;
-          let userObject = JSON.stringify(reponse);
-          this.$localStorage.set("user", userObject);
-          let user = JSON.parse(this.$localStorage.get("user"));
+        .then(function(res) {
+          if (res.ok) {
+            // console.log(res.json())
+            return res.json();
+            // return res;
+          }
+        })
+        .then(function(res) {
+          let response = res.body;
+          // let response = res.body
+          // console.log(response);
+          // let response = res.json();
+          let userObject = JSON.stringify(response);
+          // let response = res.body;
+          // let userObject = JSON.stringify(response);
+          // console.log(userObject);
+          console.log(res);
+          console.log(res.token);
+          console.log(res.userId);
+
+          this.$localStorage.setItem("user", userObject);
+          let user = JSON.parse(this.$localStorage.getItem("user"));
 
           // if(token = user.token) {
           //   window.location.href = "/home";
@@ -73,8 +89,9 @@ export default {
           //   alert("Veuillez vous inscrire en cliquant sur signup")
           // };
           console.log(this.email)
+          // console.log(this.email)
           token = user.token;
-          this.$router.push('home')
+          this.router.push('home')
           // window.location.href = "/home";
           // location.reload(true);
           // if (user.status == "admin") {
@@ -85,7 +102,12 @@ export default {
           //   location.reload(true);
           // }
         })
-        .catch(error => res.status(400).json({message: "Probleme d'inscription !"}))
+
+        // .catch(function(err) {
+        //   response.status(400).json({message: "Probleme d'inscription !"});
+        // });
+
+        // .catch(error => response.status(400).json({message: "Probleme d'inscription !"}))
       }
     }
   }
