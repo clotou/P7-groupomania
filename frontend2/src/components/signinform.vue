@@ -68,46 +68,22 @@ export default {
         })
         .then(function(res) {
           let response = res.body;
-          // let response = res.body
-          // console.log(response);
-          // let response = res.json();
+
           let userObject = JSON.stringify(response);
-          // let response = res.body;
-          // let userObject = JSON.stringify(response);
-          // console.log(userObject);
+
           console.log(res);
           console.log(res.token);
           console.log(res.userId);
 
-          this.$localStorage.setItem("user", userObject);
-          let user = JSON.parse(this.$localStorage.getItem("user"));
+          localStorage.setItem("user", userObject);
+          let user = localStorage.getItem("user");
 
-          // if(token = user.token) {
-          //   window.location.href = "/home";
-          // }else{
-          //   window.location.href = "/";
-          //   alert("Veuillez vous inscrire en cliquant sur signup")
-          // };
-          console.log(this.email)
-          // console.log(this.email)
+
           token = user.token;
-          this.router.push('home')
-          // window.location.href = "/home";
-          // location.reload(true);
-          // if (user.status == "admin") {
-          //   window.location.href = "/home";
-          //   location.reload(true);
-          // } else {
-          //   window.location.href = "/home";
-          //   location.reload(true);
-          // }
+          window.location.href = "/home";
         })
 
-        // .catch(function(err) {
-        //   response.status(400).json({message: "Probleme d'inscription !"});
-        // });
-
-        // .catch(error => response.status(400).json({message: "Probleme d'inscription !"}))
+        .catch(error => response.status(400).json({message: "Probleme d'inscription !"}))
       }
     }
   }
