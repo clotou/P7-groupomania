@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-      <div class="post-block-up" v-for="post in allposts" :key="post.idPOST">
+      <div class="post-block-up" v-for="post of allposts" :key="post.idPOST">
         <div class="name-container postSpaces">
           <p>{{ userId.firstName }} {{ userId.lastName }}</p>
           <!-- <p>Marie D</p> -->
@@ -22,7 +22,7 @@
         </div>
       </div>
           <!-- </div> -->
-      <div class="post-block-bottom" v-if="userId == _Id || userId.admin == true">
+      <div class="post-block-bottom">
         <div class="like-side">
           <!-- <p id="likes">{{post.likes}}</p> -->
           <p id="likes">{{usersLiked.length}}</p>
@@ -31,10 +31,10 @@
         </div>
         <div class="button-side">
           <div>
-            <button type="submit" class="regular-button pink-bt" id="modifier" @click= "updatePost">Modifier</button>
+            <button v-if="userId == _Id || userId.admin == true" type="submit" class="regular-button pink-bt" id="modifier" @click= "updatePost ">Modifier</button>
           </div>
           <div>
-            <button type="submit" class="regular-button red-bt" id="supprimer"  @click= "deletePost">Supprimer</button>
+            <button v-if="userId == _Id || userId.admin == true" type="submit" class="regular-button red-bt" id="supprimer"  @click= "deletePost">Supprimer</button>
           </div>
         </div>
       </div>
@@ -72,6 +72,7 @@ export default {
             usersLiked: this.userLiked,
               }),})
         .then(response => {
+          console.log(response.data);
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
           let user = JSON.parse(this.$localStorage.get("user"));
@@ -100,7 +101,7 @@ export default {
           .then(response => {
             // let reponse = response.data;
             // let postObject = JSON.stringify(reponse);
-            this.$localStorage.remove("post");
+            localStorage.remove("post");
             alert('Le post a été supprimé')
             window.location.href = "/home";
             location.reload(true);

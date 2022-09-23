@@ -58,12 +58,11 @@ export default {
           body: JSON.stringify({
             email: this.email,
             password: this.password
-          }),})
+          }),
+        })
         .then(function(res) {
           if (res.ok) {
-            // console.log(res.json())
             return res.json();
-            // return res;
           }
         })
         .then(function(res) {

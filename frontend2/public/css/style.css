@@ -217,7 +217,7 @@ small {
   font-weight: 100; }
 
 .wall {
-  position: absolute;
+  position: relative;
   top: 100px;
   z-index: -1;
   width: 50%;

@@ -1,5 +1,5 @@
 <template>
-  <div class="posts">
+  <div class="publishPost">
       <div class="name-container postSpaces">
         <p>Vous</p>
       </div>
@@ -12,7 +12,8 @@
               id="title"
               class="textarea"
               placeholder="Hey... écris quelquechose!"
-            >{{title}}</textarea>
+              v-model="title"
+            ></textarea>
           </div>
           <div class="bt-bar">
             <div>
@@ -24,7 +25,7 @@
                 value="Post"
                 id="post"
                 class="regular-button"
-                @submit.prevent= "sendPost"
+                @click="sendPost()"
               />
             </div>
           </div>
@@ -62,7 +63,7 @@ export default {
        }
     },
     methods: {
-      relaod() {
+      reload() {
         location.reload(true);
       },
     sendPost() {
@@ -78,15 +79,26 @@ export default {
           imageUrl: this.imageUrl,
           userId: this.userId,
           likes: this.likes,
-          usersLiked: this.userLiked,
+          usersLiked: this.userLiked
         }),
       })
-      .then(response => {
-        let reponse = response.data;
-        let postObject = JSON.stringify(reponse);
-        this.$localStorage.set("post", postObject);
-        let user = JSON.parse(this.$localStorage.get("post"));
+      .then(function(res) {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then(function(res) {
+        let response = res.body;
+
+        let postObject = JSON.stringify(response);
+
+        console.log(this.title)
+
+        localStorage.setItem("post", postObject);
+        let post = localStorage.getItem("post");
+
         token = user.token;
+        post.userId = _Id
         location.reload(true);
       })
     }
