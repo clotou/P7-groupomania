@@ -58,7 +58,7 @@ export default {
           body: JSON.stringify({
             email: this.email,
             password: this.password
-          }),
+          })
         })
         .then(function(res) {
           if (res.ok) {
@@ -68,17 +68,19 @@ export default {
         .then(function(res) {
           let response = res.body;
 
-          let userObject = JSON.stringify(response);
+          // let userObject = JSON.stringify(response);
 
           console.log(res);
-          console.log(res.token);
+          var token = res.token;
+          console.log(token);
+
+          var tokenObject = { token };
+          localStorage.setItem('tokenObject', JSON.stringify(tokenObject));
+
           console.log(res.userId);
 
-          localStorage.setItem("user", userObject);
-          let user = localStorage.getItem("user");
+          localStorage.setItem("user", res.userId);
 
-
-          token = user.token;
           window.location.href = "/home";
         })
 

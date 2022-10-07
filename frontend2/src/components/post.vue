@@ -1,5 +1,6 @@
 <template>
-  <div class="post">
+  <div class="allposts">
+    <div class="post">
       <div class="post-block-up" v-for="post of allposts" :key="post.idPOST">
         <div class="name-container postSpaces">
           <p>{{ userId.firstName }} {{ userId.lastName }}</p>
@@ -31,14 +32,15 @@
         </div>
         <div class="button-side">
           <div>
-            <button v-if="userId == _Id || userId.admin == true" type="submit" class="regular-button pink-bt" id="modifier" @click= "updatePost ">Modifier</button>
+            <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button pink-bt" id="modifier" value="Modifier" click= "updatePost ">
           </div>
           <div>
-            <button v-if="userId == _Id || userId.admin == true" type="submit" class="regular-button red-bt" id="supprimer"  @click= "deletePost">Supprimer</button>
+            <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button red-bt" id="supprimer" value="Supprimer" @click= "deletePost">
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -58,7 +60,7 @@ export default {
     methods: {
       updatePost() {
         fetch(`http://localhost:3000/api/posts`, {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-type': 'application/json',
             'Authorization': `Bearer${token}`
@@ -77,7 +79,7 @@ export default {
           let postObject = JSON.stringify(reponse);
           let user = JSON.parse(this.$localStorage.get("user"));
           token = user.token;
-            this.$localStorage.set("post", postObject);
+            localStorage.setItem("post", postObject);
             window.location.href = "/home";
             location.reload(true);
         })
@@ -118,15 +120,7 @@ export default {
           likes == 1
         }
       }
-    },
-    computed: {
-    sortedposts: function() {
-        this.posts.sort( ( a, b) => {
-            return new Date(a.date) - new Date(b.date);
-        });
-        return this.posts;
     }
-}
   }
 </script>
 

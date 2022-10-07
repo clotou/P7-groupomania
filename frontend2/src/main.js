@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+// import FileBase64 from 'react-file-base64';
 // import { createStore } from 'vuex'
 import App from './App.vue'
 import '../public/css/style.css'

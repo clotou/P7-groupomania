@@ -6,9 +6,7 @@
     <div class="line-container">
       <hr>
     </div>
-    <div class="allposts">
     <post></post>
-    </div>
   </div>
 </template>
 
