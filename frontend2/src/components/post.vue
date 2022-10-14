@@ -21,24 +21,29 @@
             <!-- <img src="../../public/marcantoine.png" alt="l'image publiée" class="picpost"> -->
           </div>
         </div>
+
+        <div class="post-block-bottom">
+          <div class="like-side">
+            <!-- <p id="likes">{{post.likes}}</p> -->
+            <p id="likes">{{ post.usersLiked.length }}</p>
+            <img v-if="likes === 1" src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb"
+              @click="likedislike()" />
+            <img v-else src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" @click="likedislike()" />
+          </div>
+          <div class="button-side">
+            <div>
+              <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button pink-bt" id="modifier"
+                value="Modifier" click="updatePost ">
+            </div>
+            <div>
+              <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button red-bt" id="supprimer"
+                value="Supprimer" @click="deletePost">
+            </div>
+          </div>
+        </div>
       </div>
           <!-- </div> -->
-      <div class="post-block-bottom">
-        <div class="like-side">
-          <!-- <p id="likes">{{post.likes}}</p> -->
-          <!-- <p id="likes">{{post.usersLiked}}</p> -->
-          <img v-if="likes === 1" src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb" @click="likedislike()"/>
-          <img v-else src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" @click="likedislike()"/>
-        </div>
-        <div class="button-side">
-          <div>
-            <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button pink-bt" id="modifier" value="Modifier" click= "updatePost ">
-          </div>
-          <div>
-            <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button red-bt" id="supprimer" value="Supprimer" @click= "deletePost">
-          </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </template>
