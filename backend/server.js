@@ -30,7 +30,7 @@ const errorHandler = error => {
       console.error(bind + ' is already in use.');
       process.exit(1);
       break;
-    default:
+      default:
       throw error;
   }
 };

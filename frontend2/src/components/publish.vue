@@ -18,8 +18,7 @@
           <div class="bt-bar">
             <div class="picture-bt-container">
               <button class="regular-button picture-bt">
-                <input type="file" accept="image/jpeg/*"
-  @change="uploadImage()">
+                <input type="file" accept="image/jpeg/png" name="imageUrl">
 
                 <!-- <h3 class="plus">+</h3> -->
                 <img
@@ -54,6 +53,10 @@
 <script>
 import { isTemplateNode } from '@vue/compiler-core';
 
+var retrieveObject = localStorage.getItem('tokenObject');
+console.log('retrieveObject: ', JSON.parse(retrieveObject))
+var tokenObject = JSON.parse(retrieveObject);
+console.log(tokenObject.token);
 
 export default {
   name: 'post',
@@ -61,8 +64,7 @@ export default {
     return{
       title: "",
       date: "",
-      img: "",
-      // imageUrl: "",
+      imageUrl: "",
       userId: "",
       likes: 0,
       usersLiked: [],
@@ -81,36 +83,40 @@ export default {
       console.log(rawImg)
 },
     sendPost() {
-      var retrieveObject = localStorage.getItem('tokenObject');
-      console.log('retrieveObject: ', JSON.parse(retrieveObject))
-      var tokenObject = JSON.parse(retrieveObject);
-      console.log(tokenObject.token);
 
+      var image = document.querySelector('input[type="file"]')
 
-      //const option =
-      // new FormData()
-      //   formData.set('title', this.title)
-      //   formData.set('date', new Date())
-      //   formData.set('imageUrl', this.file)
-      //   formData.set('userId', localStorage.getItem('user'))
-      //   formData.set('like', this.likes)
-      //   formData.set('unserLiked', this.userLiked);
-        // title: this.title,
-        // date: new Date(),
-        // imageUrl: this.file,
-        // userId: localStorage.getItem('user'),
-        // likes: this.likes,
-        // usersLiked: this.userLiked
+      // var option = new FormData()
+      //   option.append('title', this.title)
+      //   option.append('date', new Date())
+      //   option.append('imageUrl', image.files[0])
+      //   option.append('userId', localStorage.getItem('user'))
+      //   option.append('like', this.likes)
+      //   option.append('unserLiked', this.userLiked);
 
-      var option = JSON.stringify({
+      var option = {
         title: this.title,
         date: new Date(),
-        imageUrl: this.file,
+        // imageUrl: this.file,
+        imageUrl: JSON.stringify(image.files[0]),
         userId: localStorage.getItem('user'),
         likes: this.likes,
         usersLiked: this.userLiked
-      });
-      console.log(option);
+      };
+
+      // console.log(image.files[0])
+
+      // var option = JSON.stringify({
+      //   title: this.title,
+      //   date: new Date(),
+      //   imageUrl: image.files[0].path,
+      //   userId: localStorage.getItem('user'),
+      //   likes: this.likes,
+      //   usersLiked: this.userLiked
+      // });
+      // for (var value of option.values()) {
+      //   console.log(value);
+      // }
 
 
       fetch(`http://localhost:3000/api/posts`, {
@@ -119,9 +125,15 @@ export default {
           'Content-type': 'application/json',
           'Authorization': `Bearer ${tokenObject.token}`
         },
-        body: option,
+        // headers: {
+        //   'Content-type': 'multipart/form-data',
+        //   'Authorization': `Bearer ${tokenObject.token}`
+        // },
+        // body: option,
+        body: JSON.stringify(option),
       })
       .then(function(res) {
+        console.log(option);
         console.log(res)
         if (res.ok) {
           return res.json();
@@ -129,10 +141,10 @@ export default {
       })
       .then(function(res) {
         console.log(res)
-        let response = res.data;
+        let response = res.body;
 
-        let postObject = JSON.stringify(response);
-        // console.log(postObject)
+        let postObject = response;
+        console.log(postObject)
 
         localStorage.setItem("post", postObject);
         let post = localStorage.getItem("post");
