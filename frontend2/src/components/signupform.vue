@@ -74,15 +74,31 @@ export default {
         }),
       })
       .then(response => {
-        console.log(response)
+        console.log(this.firstName)
+        console.log(this.lastName)
         let reponse = response.data;
         // let userObject = JSON.stringify(reponse);
         // this.$localStorage.set("user", userObject);
 
+// retrieve the firstName
+
+        localStorage.setItem('firstName', this.firstName);
+//retrieve the lastName
+        localStorage.setItem('lastName', this.lastName);
+        // var lastName = response.lastName;
+        // console.log(lastName);
+
+        // var lastNameObject = { lastName };
+        // localStorage.setItem('lastNameObject', JSON.stringify(lastNameObject));
+
+        // console.log(response.lastName);
+
+        // localStorage.setItem("lastName", response.lastName);
         // let user = JSON.parse(this.$localStorage.get("user"));
         // token = user.token;
+
         window.location.href = "/";
-        // location.reload(true);
+
 
 
         // if (user.status == "admin") {

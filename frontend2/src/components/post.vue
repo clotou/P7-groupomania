@@ -2,8 +2,8 @@
   <div class="allposts">
     <div class="post">
       <div class="post-block-up" v-for="post in allposts" :key="post._id">
-        <div class="name-container postSpaces">
-          <p>{{post.userId.firstName }} {{ post.userId.lastName }}</p>
+        <div class="name-container">
+          <p>{{ post.firstName }} {{ post.lastName }}</p>
           <!-- <p>Marie D</p> -->
         </div>
         <div class="post-container posted-post-spaces">
@@ -36,7 +36,7 @@
                 value="Modifier" click="updatePost ">
             </div>
             <div>
-              <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button red-bt" id="supprimer"
+              <input type="button" class="regular-button red-bt" id="supprimer"
                 value="Supprimer" @click="deletePost">
             </div>
           </div>
@@ -54,6 +54,7 @@ var retrieveObject = localStorage.getItem('tokenObject');
 console.log('retrieveObject: ', JSON.parse(retrieveObject))
 var tokenObject = JSON.parse(retrieveObject);
 console.log(tokenObject.token);
+
 
 export default {
     name: 'post',
@@ -87,7 +88,6 @@ export default {
     })
     this.allposts = response;
     console.log(this.allposts);
-
 },
     methods: {
       updatePost() {
@@ -102,6 +102,8 @@ export default {
             date: this.date,
             imageUrl: this.imageUrl,
             userId: this.userId,
+            firstName: this.firstName,
+            lastName: this.lastName,
             likes: this.likes,
             usersLiked: this.userLiked,
               }),})
@@ -121,26 +123,26 @@ export default {
             method: 'DELETE',
             headers: {
               'Content-type': 'application/json',
-              'Authorization': `Bearer${token}`
+              'Authorization': `Bearer ${tokenObject.token}`
                 }
-            // body: JSON.stringify({
-            //   title: this.title,
-            //   date: this.date,
-            //   imageUrl: this.imageUrl,
-            //   userId: this.userId,
-            //   likes: this.like,
-            //   usersLiked: this.userLiked,
-            // }),
-          // })
-          .then(response => {
-            // let reponse = response.data;
-            // let postObject = JSON.stringify(reponse);
-            localStorage.remove("post");
-            alert('Le post a été supprimé')
-            window.location.href = "/home";
-            location.reload(true);
-          })
         })
+            .then(res => {
+              return res.json()
+            })
+            .then(data => console.log(data))
+          //       .then(function (res) {
+          //       console.log(res);
+          //       if (res.ok) {
+          //         return res.json();
+          //       }
+          //     })
+          //     .then(function (res) {
+          //   console.log(res);
+          //   localStorage.delete("post");
+          //   alert('Le post a été supprimé')
+          //   window.location.href = "/home";
+          //   // location.reload(true);
+          // })
       },
       dateCreated(date) {
         return dayjs(date).format("dddd D MMMM YYYY", "fr");

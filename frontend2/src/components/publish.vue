@@ -52,11 +52,18 @@
 
 <script>
 import { isTemplateNode } from '@vue/compiler-core';
-
+//retrieve token
 var retrieveObject = localStorage.getItem('tokenObject');
 console.log('retrieveObject: ', JSON.parse(retrieveObject))
 var tokenObject = JSON.parse(retrieveObject);
 console.log(tokenObject.token);
+
+//retrieve firstName
+var firstName = localStorage.getItem('firstName');
+console.log(firstName)
+//retrieve lastName
+var lastName = localStorage.getItem('lastName');
+console.log(lastName)
 
 export default {
   name: 'post',
@@ -66,6 +73,8 @@ export default {
       date: "",
       imageUrl: "",
       userId: "",
+      firstName: "",
+      lastName: "",
       likes: 0,
       usersLiked: [],
       }
@@ -97,9 +106,10 @@ export default {
       var option = {
         title: this.title,
         date: new Date(),
-        // imageUrl: this.file,
         imageUrl: JSON.stringify(image.files[0]),
         userId: localStorage.getItem('user'),
+        firstName: localStorage.getItem('firstName'),
+        lastName: localStorage.getItem('lastName'),
         likes: this.likes,
         usersLiked: this.userLiked
       };
