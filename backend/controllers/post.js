@@ -4,7 +4,7 @@ const fs = require('fs');
 exports.createPost = (req, res, next) => {
 console.log(req.body);
    const postObject = req.body;
-console.log(postObject.imageUrl);
+//console.log(postObject.imageUrl);
 console.log(req.protocol);
 
    delete postObject._id;
@@ -50,7 +50,9 @@ exports.like = (req, res, next) => {
     if (req.body.like === 1) {
         Post.updateOne({_id: req.params.id}, {
           $inc: {likes: +1},
-          usersLiked: req.body.userId })
+          //usersLiked: req.body.userId })
+          $push:
+            { usersLiked: req.body.userId }})
             .then(post => res.status(200).json({message: 'Like ajouté !'}))
             .catch(error => res.status(400).json({message: "Problème d'ajout du like !"}))
     } else {

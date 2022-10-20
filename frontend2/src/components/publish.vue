@@ -102,6 +102,8 @@ export default {
       //   option.append('userId', localStorage.getItem('user'))
       //   option.append('like', this.likes)
       //   option.append('unserLiked', this.userLiked);
+      var newDate = new Date();
+      var today = newDate.toLocaleDateString("fr");
 
       var option = {
         title: this.title,
@@ -113,7 +115,8 @@ export default {
         likes: this.likes,
         usersLiked: this.userLiked
       };
-
+      console.log(option.date.toLocaleDateString("fr"));
+      console.log(typeof option.date);
       // console.log(image.files[0])
 
       // var option = JSON.stringify({

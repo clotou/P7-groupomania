@@ -9,7 +9,7 @@
         <div class="post-container posted-post-spaces">
           <div class="date-container">
             <!-- createdAt ? -->
-            <h3>{{ post.date }}</h3>
+            <h3>{{ dateCreated(post.date) }}</h3>
             <!-- <h3>22/07/22 - 10:20</h3> -->
           </div>
           <div class="title-container">
@@ -32,12 +32,12 @@
           </div>
           <div class="button-side">
             <div>
-              <input v-if="userId == _Id || userId.admin == true" type="button" class="regular-button pink-bt" id="modifier"
-                value="Modifier" click="updatePost ">
+              <input v-if="userId == post.userId || userId.admin == true" type="button" class="regular-button pink-bt" id="modifier"
+                value="Modifier" @click="updatePost(post._id) ">
             </div>
             <div>
-              <input type="button" class="regular-button red-bt" id="supprimer"
-                value="Supprimer" @click="deletePost">
+              <input v-if="userId == post.userId || userId.admin == true" type="button" class="regular-button red-bt" id="supprimer"
+                value="Supprimer" @click="deletePost(post._id)">
             </div>
           </div>
         </div>
@@ -49,24 +49,25 @@
 </template>
 
 <script>
+import * as dayjs from 'dayjs'
+import 'dayjs/locale/fr'
 
 var retrieveObject = localStorage.getItem('tokenObject');
-console.log('retrieveObject: ', JSON.parse(retrieveObject))
 var tokenObject = JSON.parse(retrieveObject);
-console.log(tokenObject.token);
-
 
 export default {
     name: 'post',
     data(){
       return{
         allposts: [],
+        firstName: "",
+        lastName: "",
         title: "",
         date: "",
         imageUrl: "",
-        userId: "",
+        userId: localStorage.getItem('user'),
         likes: 0,
-        usersLiked: [],
+        usersLiked: []
        }
     },
   created: async function (){
@@ -87,11 +88,18 @@ export default {
       return res
     })
     this.allposts = response;
+    response.reverse();
     console.log(this.allposts);
 },
-    methods: {
-      updatePost() {
-        fetch(`http://localhost:3000/api/posts`, {
+   methods: {
+     reloadPage() {
+       window.location.reload();
+     },
+      dateCreated(date) {
+        return dayjs(date).locale('fr').format("dddd D MMMM YYYY", "fr");
+      },
+      updatePost(id) {
+        fetch(`http://localhost:3000/api/posts/${id}`, {
           method: 'PUT',
           headers: {
             'Content-type': 'application/json',
@@ -108,7 +116,7 @@ export default {
             usersLiked: this.userLiked,
               }),})
         .then(response => {
-          console.log(response.data);
+          console.log(response);
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
           let user = JSON.parse(this.$localStorage.get("user"));
@@ -118,34 +126,21 @@ export default {
             location.reload(true);
         })
       },
-        deletePost() {
-          fetch(`http://localhost:3000/api/posts`, {
+      deletePost(id) {
+        if (confirm("Êtes vous sure de vouloir supprimer ce post?")) {
+          fetch(`http://localhost:3000/api/posts/${id}`, {
             method: 'DELETE',
             headers: {
               'Content-type': 'application/json',
               'Authorization': `Bearer ${tokenObject.token}`
-                }
+                },
         })
             .then(res => {
               return res.json()
+
             })
             .then(data => console.log(data))
-          //       .then(function (res) {
-          //       console.log(res);
-          //       if (res.ok) {
-          //         return res.json();
-          //       }
-          //     })
-          //     .then(function (res) {
-          //   console.log(res);
-          //   localStorage.delete("post");
-          //   alert('Le post a été supprimé')
-          //   window.location.href = "/home";
-          //   // location.reload(true);
-          // })
-      },
-      dateCreated(date) {
-        return dayjs(date).format("dddd D MMMM YYYY", "fr");
+        }
       },
       likedislike() {
         if(likes == 1) {
