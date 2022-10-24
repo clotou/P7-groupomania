@@ -7,7 +7,6 @@
       <hr>
     </div>
     <post></post>
-    <modale v-show="isModalVisible" @close="closeModal"></modale>
 
   </div>
 </template>
@@ -16,6 +15,7 @@
   import post from "../components/post.vue"
   import publish from "../components/publish.vue"
   import modale from "../components/modale.vue"
+  import axios from 'axios'
 
 
   export default {

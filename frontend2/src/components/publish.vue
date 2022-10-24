@@ -114,9 +114,8 @@ export default {
         likes: this.likes,
         usersLiked: this.userLiked
       };
-      console.log(option.date.toLocaleDateString("fr"));
-      console.log(typeof option.date);
-      // console.log(image.files[0])
+
+      console.log("imaaaaaage", image.files[0])
 
       // var option = JSON.stringify({
       //   title: this.title,
@@ -161,7 +160,7 @@ export default {
         localStorage.setItem("post", postObject);
         let post = localStorage.getItem("post");
 
-        // location.reload(true);
+        window.location.href = "/home";
       })
     }
   }

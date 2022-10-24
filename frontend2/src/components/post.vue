@@ -33,50 +33,48 @@
           <div class="button-side">
             <div>
               <input v-if="userId == post.userId || admin" type="button" class="regular-button btn pink-bt"
-                value="Modifier" id="openModal" @click="showModal(post._id, post.title, post.imageUrl)">
+                value="Modifier" id="openModal" @click="showModal(post)">
             </div>
 
             <!-- <Modal v-show="isModalVisible" @close="closeModal"/> -->
-<!-- début de la modlae-->
-<div class="modal-backdrop" v-show="isModalVisible" @close="closeModal">
-  <div class="modal">
-    <header class="modal-header">
-      <slot name="header">
-        Modifiez votre post!
-      </slot>
-      <button type="button" class="btn-close" @click="$emit('close')">
-        x
-      </button>
-    </header>
+<!-- début de la modale-->
+<div v-show="isModalVisible">
+  <div class="modal-backdrop">
+    <div class="modal">
+      <header class="modal-header">
+        <slot name="header">
+          Modifiez votre post!
+        </slot>
+        <button type="button" class="btn-close" @click="isModalVisible=false">
+          x
+        </button>
+      </header>
 
-    <slot name="body">
-      <form action="" method="put" id="form">
-        <div class="textarea-container">
-          <textarea name="title" id="title" class="textarea" placeholder="" v-model="title">{{ title }}</textarea>
-        </div>
-        <div class="bt-bar">
-          <div class="picture-bt-container">
-            <button class="regular-button picture-bt">
-              <input type="file" name="imageUrl" id="imageUrl" />
-              <img src="../../public/ICONE_PICTURE.png" alt="icone picture" class="icone-picture" />
-            </button>
-            <small>format accepté: png, jpg, jpeg</small>
+      <slot name="body">
+        <form action="" method="put" id="form">
+          <div class="textarea-container">
+            <textarea name="title" id="title" class="textarea" placeholder="" v-model="currentPost.title"></textarea>
           </div>
+          <div class="bt-bar">
+            <div class="picture-bt-container">
+              <button class="regular-button picture-bt">
+                <input type="file" name="imageUrl" id="imageUrl" />
+                <img src="../../public/ICONE_PICTURE.png" alt="icone picture" class="icone-picture" />
+              </button>
+              <small>format accepté: png, jpg, jpeg</small>
+            </div>
+          </div>
+        </form>
+      </slot>
+
+      <slot name="footer" class="bt-bar">
+        <div class="blue-bt">
+          <input type="button" value="Mettre à jour" id="postUpdate" class="regular-button"
+            @click="updatePost(currentPost)" />
         </div>
-      </form>
-    </slot>
+      </slot>
 
-    <slot name="footer" class="bt-bar">
-      <div>
-        <input type="button" class="regular-button" id="annulerUpdate" @click="$emit('close')" value="Annuler">
-      </div>
-      <div class="blue-bt">
-        <input type="button" value="Mettre à jour" id="postUpdate" class="regular-button"
-          @click="updatePost(post._id)" />
-      </div>
-    </slot>
-
-
+    </div>
   </div>
 </div>
 
@@ -106,7 +104,6 @@ export default {
   name: 'post',
   components: {
     Modal,
-
   },
   // data() {
   //   return {
@@ -134,6 +131,7 @@ export default {
         likes: 0,
         usersLiked: [],
         isModalVisible: false,
+        currentPost: {},
        }
     },
   created: async function (){
@@ -164,46 +162,35 @@ export default {
      reloadPage() {
        window.location.reload();
      },
-     showModal(id, title, imageUrl) {
+     showModal(post) {
+       this.currentPost = post;
+       console.log("THE POST", post._id)
        this.isModalVisible = true;
-       console.log(id);
-       console.log(title);
-       console.log(imageUrl);
      },
      closeModal() {
        this.isModalVisible = false;
+       console.log($emit('close'))
      },
       dateCreated(date) {
         return dayjs(date).locale('fr').format("dddd D MMMM YYYY", "fr");
       },
-      updatePost(id,index) {
-        this.allposts[index]
-        fetch(`http://localhost:3000/api/posts/${id}`, {
+     updatePost(currentPost) {
+        fetch(`http://localhost:3000/api/posts/${currentPost._id}`, {
           method: 'PUT',
           headers: {
             'Content-type': 'application/json',
             'Authorization': `Bearer ${tokenObject.token}`
               },
           body: JSON.stringify({
-            title: this.title,
-            date: this.date,
-            imageUrl: this.imageUrl,
-            userId: this.userId,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            admin: this.admin,
-            likes: this.likes,
-            usersLiked: this.userLiked,
+            title: currentPost.title,
+            imageUrl: currentPost.imageUrl,
               }),})
         .then(response => {
           console.log(response);
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
-          let user = JSON.parse(this.$localStorage.get("user"));
-          token = user.token;
-            localStorage.setItem("post", postObject);
+
             window.location.href = "/home";
-            // location.reload(true);
         })
       },
 
