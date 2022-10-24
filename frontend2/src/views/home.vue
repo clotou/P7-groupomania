@@ -24,19 +24,6 @@
       publish,
       post,
       modale
-    },
-  data() {
-    return {
-      isModalVisible: false,
-    };
-  },
-  methods: {
-    showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
     }
-  }
 }
 </script>

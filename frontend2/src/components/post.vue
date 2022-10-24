@@ -32,13 +32,55 @@
           </div>
           <div class="button-side">
             <div>
-              <input v-if="userId == post.userId || admin == true" type="button" class="regular-button btn pink-bt"
-                value="Modifier" id="openModal" @click="showModal">
+              <input v-if="userId == post.userId || admin" type="button" class="regular-button btn pink-bt"
+                value="Modifier" id="openModal" @click="showModal(post._id, post.title, post.imageUrl)">
             </div>
 
-            <Modal v-show="isModalVisible" @close="closeModal" />
+            <!-- <Modal v-show="isModalVisible" @close="closeModal"/> -->
+<!-- début de la modlae-->
+<div class="modal-backdrop" v-show="isModalVisible" @close="closeModal">
+  <div class="modal">
+    <header class="modal-header">
+      <slot name="header">
+        Modifiez votre post!
+      </slot>
+      <button type="button" class="btn-close" @click="$emit('close')">
+        x
+      </button>
+    </header>
 
-            <input v-if="userId == post.userId || admin == true" type="button" class="regular-button red-bt" id="supprimer"
+    <slot name="body">
+      <form action="" method="put" id="form">
+        <div class="textarea-container">
+          <textarea name="title" id="title" class="textarea" placeholder="" v-model="title">{{ title }}</textarea>
+        </div>
+        <div class="bt-bar">
+          <div class="picture-bt-container">
+            <button class="regular-button picture-bt">
+              <input type="file" name="imageUrl" id="imageUrl" />
+              <img src="../../public/ICONE_PICTURE.png" alt="icone picture" class="icone-picture" />
+            </button>
+            <small>format accepté: png, jpg, jpeg</small>
+          </div>
+        </div>
+      </form>
+    </slot>
+
+    <slot name="footer" class="bt-bar">
+      <div>
+        <input type="button" class="regular-button" id="annulerUpdate" @click="$emit('close')" value="Annuler">
+      </div>
+      <div class="blue-bt">
+        <input type="button" value="Mettre à jour" id="postUpdate" class="regular-button"
+          @click="updatePost(post._id)" />
+      </div>
+    </slot>
+
+
+  </div>
+</div>
+
+            <input v-if="userId == post.userId || admin" type="button" class="regular-button red-bt" id="supprimer"
               value="Supprimer" @click="deletePost(post._id)">
 
         </div>
@@ -51,6 +93,7 @@
 <script>
 import * as dayjs from 'dayjs'
 import 'dayjs/locale/fr'
+import { VueElement } from 'vue';
 import Modal from '../components/modale.vue';
 
 var retrieveObject = localStorage.getItem('tokenObject');
@@ -63,6 +106,7 @@ export default {
   name: 'post',
   components: {
     Modal,
+
   },
   // data() {
   //   return {
@@ -120,8 +164,11 @@ export default {
      reloadPage() {
        window.location.reload();
      },
-     showModal() {
+     showModal(id, title, imageUrl) {
        this.isModalVisible = true;
+       console.log(id);
+       console.log(title);
+       console.log(imageUrl);
      },
      closeModal() {
        this.isModalVisible = false;

@@ -14,7 +14,7 @@
         <form action="" method="put" id="form">
           <div class="textarea-container">
             <textarea name="title" id="title" class="textarea" placeholder=""
-              v-model="title">{{  }}</textarea>
+              v-model="title">{{ title }}</textarea>
           </div>
           <div class="bt-bar">
             <div class="picture-bt-container">
@@ -62,17 +62,18 @@ export default {
   name: 'Modal',
   data() {
     return {
-      allposts: [],
-      firstName: "",
-      lastName: "",
-      admin: null,
-      title: "",
-      date: "",
-      imageUrl: "",
-      userId: localStorage.getItem('user'),
-      likes: 0,
-      usersLiked: [],
-      isModalVisible: false,
+      // allposts: [],
+      // firstName: "",
+      // lastName: "",
+      // admin: null,
+      //date: "",
+      id: this.id,
+      title: this.title,
+      imageUrl: this.imageUrl,
+      // userId: localStorage.getItem('user'),
+      // likes: 0,
+      // usersLiked: [],
+      // isModalVisible: false,
     };
   },
   // created: async function () {
