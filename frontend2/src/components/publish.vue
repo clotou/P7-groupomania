@@ -18,7 +18,7 @@
           <div class="bt-bar">
             <div class="picture-bt-container">
               <button class="regular-button picture-bt">
-                <input type="file" accept="image/jpeg/png" name="imageUrl">
+                <input type="file" name="imageUrl" id="imageUrl"/>
 
                 <!-- <h3 class="plus">+</h3> -->
                 <img
@@ -56,7 +56,6 @@ import { isTemplateNode } from '@vue/compiler-core';
 var retrieveObject = localStorage.getItem('tokenObject');
 console.log('retrieveObject: ', JSON.parse(retrieveObject))
 var tokenObject = JSON.parse(retrieveObject);
-console.log(tokenObject.token);
 
 //retrieve firstName
 var firstName = localStorage.getItem('firstName');
@@ -108,7 +107,7 @@ export default {
       var option = {
         title: this.title,
         date: new Date(),
-        imageUrl: JSON.stringify(image.files[0]),
+        imageUrlLocal: JSON.stringify(image.files[0]),
         userId: localStorage.getItem('user'),
         firstName: localStorage.getItem('firstName'),
         lastName: localStorage.getItem('lastName'),

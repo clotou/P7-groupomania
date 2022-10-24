@@ -226,6 +226,9 @@ small {
   width: 50%;
   margin: auto; }
 
+.publishPost {
+  display: flex; }
+
 .post {
   display: flex;
   flex-direction: column;
@@ -268,8 +271,7 @@ small {
   background-color: #D9D9D9;
   border-radius: 8px;
   position: relative;
-  bottom: 6px;
-  z-index: 1; }
+  bottom: 6px; }
   .title-container > h2 {
     padding: 8px 8px 12px 8px;
     color: black; }
@@ -297,9 +299,16 @@ small {
     top: 80px;
     z-index: -1; }
 
+  .publishPost,
   .post {
     width: 90%;
     flex-direction: column; }
+
+  .publishPost {
+    margin-left: 10px; }
+
+  .post-container {
+    width: 100%; }
 
   .postSpaces {
     padding: 10px 0; }
@@ -326,5 +335,66 @@ small {
 
   .like-side {
     margin-left: 0; } }
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.modal {
+  background: #FFFFFF;
+  box-shadow: 2px 2px 20px 1px;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 2; }
+
+.modal-header,
+.modal-footer {
+  padding: 15px;
+  display: flex; }
+
+.modal-header {
+  background-color: #FFD7D7;
+  font-weight: 600;
+  border-radius: 8px;
+  position: relative;
+  border-bottom: 1px solid #eeeeee;
+  color: #000000;
+  justify-content: space-between; }
+
+.modal-footer {
+  border-top: 1px solid #eeeeee;
+  flex-direction: column;
+  justify-content: flex-end; }
+
+.modal-body {
+  position: relative;
+  padding: 20px 10px; }
+
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #FD2D01;
+  background: transparent; }
+
+.btn-green {
+  color: white;
+  background: #FD2D01;
+  border: 1px solid #FD2D01;
+  border-radius: 2px; }
 
 /*# sourceMappingURL=style.css.map */

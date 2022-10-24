@@ -11,7 +11,7 @@ exports.signUp = (req, res, next) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hash,
-      admin: false
+      // admin: false
     });
     user.save()
     .then(()=> res.status(200).json({message: 'Utilisateur créé !'}))
@@ -32,8 +32,11 @@ exports.login = (req, res, next) => {
                        return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
                    }
                    res.status(200).json({
-                       userId: user._id,
-                       token: jwt.sign(
+                      userFirstName: user.firstName,
+                      userLastName: user.lastName,
+                      userAdmin: false,
+                      userId: user._id,
+                      token: jwt.sign(
                         { userId: user._id },
                         'RANDOM_TOKEN_SECRET',
                         { expiresIn: '24h'}

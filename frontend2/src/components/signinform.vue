@@ -29,12 +29,14 @@
 
 
 <script>
+
 export default {
     name: 'signinform',
     data(){
       return{
         email:"",
-        password:""
+        password:"",
+        //admin: localStorage.getItem('admin'),
        }
     },
     methods: {
@@ -57,7 +59,7 @@ export default {
               },
           body: JSON.stringify({
             email: this.email,
-            password: this.password
+            password: this.password,
           })
         })
         .then(function(res) {
@@ -70,7 +72,7 @@ export default {
 
           // let userObject = JSON.stringify(response);
 
-          console.log(res);
+          console.log(response);
           var token = res.token;
           console.log(token);
 
@@ -78,8 +80,12 @@ export default {
           localStorage.setItem('tokenObject', JSON.stringify(tokenObject));
 
           console.log(res.userId);
+          console.log(res.userFirstName);
 
           localStorage.setItem("user", res.userId);
+          localStorage.setItem("firstName", res.userFirstName);
+          localStorage.setItem("lastName", res.userLastName);
+          localStorage.setItem("admin", res.userAdmin)
 
           window.location.href = "/home";
         })

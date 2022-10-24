@@ -47,7 +47,8 @@ export default {
       firstName: "",
       lastName: "",
       email:"",
-      password:""
+      password:"",
+      // admin: false
     }
   },
   methods: {
@@ -55,7 +56,6 @@ export default {
       this.mode = "signin";
     },
     sendSignup() {
-      console.log(this.firstName)
       if (this.firstName == "" || this.lastName == "" || this.email == "" || this.password == "") {
         alert(
           "Veuillez saisir vos coordonnées pour créer un compte"
@@ -70,44 +70,22 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
-          password: this.password
+          password: this.password,
+         // admin: this.admin
         }),
       })
       .then(response => {
-        console.log(this.firstName)
-        console.log(this.lastName)
+        // console.log(this.firstName)
+        // console.log(this.lastName)
+        // console.log(this.admin)
         let reponse = response.data;
-        // let userObject = JSON.stringify(reponse);
-        // this.$localStorage.set("user", userObject);
 
-// retrieve the firstName
 
-        localStorage.setItem('firstName', this.firstName);
-//retrieve the lastName
-        localStorage.setItem('lastName', this.lastName);
-        // var lastName = response.lastName;
-        // console.log(lastName);
-
-        // var lastNameObject = { lastName };
-        // localStorage.setItem('lastNameObject', JSON.stringify(lastNameObject));
-
-        // console.log(response.lastName);
-
-        // localStorage.setItem("lastName", response.lastName);
-        // let user = JSON.parse(this.$localStorage.get("user"));
-        // token = user.token;
+        // localStorage.setItem('firstName', this.firstName);
+        // localStorage.setItem('lastName', this.lastName);
+        // localStorage.setItem('admin', this.admin);
 
         window.location.href = "/";
-
-
-
-        // if (user.status == "admin") {
-        //   window.location.href = "/home";
-        //   location.reload(true);
-        // } else {
-        //   window.location.href = "/home";
-        //   location.reload(true);
-        // }
       })
     }
     }

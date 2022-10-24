@@ -1,7 +1,7 @@
 <template>
   <div class="allposts">
     <div class="post">
-      <div class="post-block-up" v-for="post in allposts" :key="post._id">
+      <div class="post-block-up" v-for="(post, index) in allposts" :key="post._id">
         <div class="name-container">
           <p>{{ post.firstName }} {{ post.lastName }}</p>
           <!-- <p>Marie D</p> -->
@@ -32,18 +32,18 @@
           </div>
           <div class="button-side">
             <div>
-              <input v-if="userId == post.userId || userId.admin == true" type="button" class="regular-button pink-bt" id="modifier"
-                value="Modifier" @click="updatePost(post._id) ">
+              <input v-if="userId == post.userId || admin == true" type="button" class="regular-button btn pink-bt"
+                value="Modifier" id="openModal" @click="showModal">
             </div>
-            <div>
-              <input v-if="userId == post.userId || userId.admin == true" type="button" class="regular-button red-bt" id="supprimer"
-                value="Supprimer" @click="deletePost(post._id)">
-            </div>
-          </div>
+
+            <Modal v-show="isModalVisible" @close="closeModal" />
+
+            <input v-if="userId == post.userId || admin == true" type="button" class="regular-button red-bt" id="supprimer"
+              value="Supprimer" @click="deletePost(post._id)">
+
         </div>
       </div>
-          <!-- </div> -->
-
+      </div>
     </div>
   </div>
 </template>
@@ -51,23 +51,45 @@
 <script>
 import * as dayjs from 'dayjs'
 import 'dayjs/locale/fr'
+import Modal from '../components/modale.vue';
 
 var retrieveObject = localStorage.getItem('tokenObject');
 var tokenObject = JSON.parse(retrieveObject);
+var admin = localStorage.getItem('admin');
+console.log(admin)
 
 export default {
-    name: 'post',
+
+  name: 'post',
+  components: {
+    Modal,
+  },
+  // data() {
+  //   return {
+  //     isModalVisible: false,
+  //   };
+  // },
+  // methods: {
+  //   showModal() {
+  //     this.isModalVisible = true;
+  //   },
+  //   closeModal() {
+  //     this.isModalVisible = false;
+  //   }
+  // },
     data(){
       return{
         allposts: [],
         firstName: "",
         lastName: "",
+        admin: localStorage.getItem('admin'),
         title: "",
         date: "",
         imageUrl: "",
         userId: localStorage.getItem('user'),
         likes: 0,
-        usersLiked: []
+        usersLiked: [],
+        isModalVisible: false,
        }
     },
   created: async function (){
@@ -88,17 +110,27 @@ export default {
       return res
     })
     this.allposts = response;
+    // response.update(response[response.length-1])
+    // response.push(res[res.length-1]);
     response.reverse();
     console.log(this.allposts);
+    console.log(admin);
 },
    methods: {
      reloadPage() {
        window.location.reload();
      },
+     showModal() {
+       this.isModalVisible = true;
+     },
+     closeModal() {
+       this.isModalVisible = false;
+     },
       dateCreated(date) {
         return dayjs(date).locale('fr').format("dddd D MMMM YYYY", "fr");
       },
-      updatePost(id) {
+      updatePost(id,index) {
+        this.allposts[index]
         fetch(`http://localhost:3000/api/posts/${id}`, {
           method: 'PUT',
           headers: {
@@ -112,6 +144,7 @@ export default {
             userId: this.userId,
             firstName: this.firstName,
             lastName: this.lastName,
+            admin: this.admin,
             likes: this.likes,
             usersLiked: this.userLiked,
               }),})
@@ -123,10 +156,12 @@ export default {
           token = user.token;
             localStorage.setItem("post", postObject);
             window.location.href = "/home";
-            location.reload(true);
+            // location.reload(true);
         })
       },
-      deletePost(id) {
+
+      deletePost(id, index) {
+        console.log(index);
         if (confirm("Êtes vous sure de vouloir supprimer ce post?")) {
           fetch(`http://localhost:3000/api/posts/${id}`, {
             method: 'DELETE',
@@ -140,6 +175,7 @@ export default {
 
             })
             .then(data => console.log(data))
+            this.allposts.splice(index, 1);
         }
       },
       likedislike() {

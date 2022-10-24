@@ -4,7 +4,7 @@ const fs = require('fs');
 exports.createPost = (req, res, next) => {
 console.log(req.body);
    const postObject = req.body;
-//console.log(postObject.imageUrl);
+console.log(postObject);
 console.log(req.protocol);
 
    delete postObject._id;
