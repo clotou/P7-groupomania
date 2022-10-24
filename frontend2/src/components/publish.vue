@@ -1,4 +1,5 @@
 <template>
+  <input type="button" class="regular-button btn blue-bt logout-button" value="Déconnecter" id="logout" @click="logout()">
   <div class="publishPost">
       <div class="name-container postSpaces">
         <p>Vous</p>
@@ -19,8 +20,6 @@
             <div class="picture-bt-container">
               <button class="regular-button picture-bt">
                 <input type="file" name="imageUrl" id="imageUrl"/>
-
-                <!-- <h3 class="plus">+</h3> -->
                 <img
                   src="../../public/ICONE_PICTURE.png"
                   alt="icone picture"
@@ -117,30 +116,12 @@ export default {
 
       console.log("imaaaaaage", image.files[0])
 
-      // var option = JSON.stringify({
-      //   title: this.title,
-      //   date: new Date(),
-      //   imageUrl: image.files[0].path,
-      //   userId: localStorage.getItem('user'),
-      //   likes: this.likes,
-      //   usersLiked: this.userLiked
-      // });
-      // for (var value of option.values()) {
-      //   console.log(value);
-      // }
-
-
       fetch(`http://localhost:3000/api/posts`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
           'Authorization': `Bearer ${tokenObject.token}`
         },
-        // headers: {
-        //   'Content-type': 'multipart/form-data',
-        //   'Authorization': `Bearer ${tokenObject.token}`
-        // },
-        // body: option,
         body: JSON.stringify(option),
       })
       .then(function(res) {
@@ -160,7 +141,7 @@ export default {
         localStorage.setItem("post", postObject);
         let post = localStorage.getItem("post");
 
-        window.location.href = "/home";
+        // window.location.href = "/home";
       })
     }
   }

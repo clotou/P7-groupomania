@@ -21,7 +21,8 @@
 .sticky {
   position: fixed;
   top: 0;
-  width: 100%; }
+  width: 100%;
+  z-index: 0; }
 
 @media screen and (max-width: 900px) {
   .header {
@@ -188,6 +189,11 @@ h3 {
   margin-left: 20px;
   opacity: 0.8; }
 
+.logout-button {
+  position: fixed;
+  top: 150px;
+  right: 30px; }
+
 .name-container > p {
   margin-right: 20px;
   color: #4E5166; }
@@ -296,8 +302,7 @@ small {
 @media screen and (max-width: 900px) {
   .wall {
     position: absolute;
-    top: 80px;
-    z-index: -1; }
+    top: 80px; }
 
   .publishPost,
   .post {

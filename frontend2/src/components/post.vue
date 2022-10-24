@@ -32,7 +32,7 @@
           </div>
           <div class="button-side">
             <div>
-              <input v-if="userId == post.userId || admin" type="button" class="regular-button btn pink-bt"
+              <input v-if="userId == post.userId || (admin = true)" type="button" class="regular-button btn pink-bt"
                 value="Modifier" id="openModal" @click="showModal(post)">
             </div>
 
@@ -80,7 +80,6 @@
 
             <input v-if="userId == post.userId || admin" type="button" class="regular-button red-bt" id="supprimer"
               value="Supprimer" @click="deletePost(post._id)">
-
         </div>
       </div>
       </div>
@@ -92,7 +91,6 @@
 import * as dayjs from 'dayjs'
 import 'dayjs/locale/fr'
 import { VueElement } from 'vue';
-import Modal from '../components/modale.vue';
 
 var retrieveObject = localStorage.getItem('tokenObject');
 var tokenObject = JSON.parse(retrieveObject);
@@ -102,22 +100,6 @@ console.log(admin)
 export default {
 
   name: 'post',
-  components: {
-    Modal,
-  },
-  // data() {
-  //   return {
-  //     isModalVisible: false,
-  //   };
-  // },
-  // methods: {
-  //   showModal() {
-  //     this.isModalVisible = true;
-  //   },
-  //   closeModal() {
-  //     this.isModalVisible = false;
-  //   }
-  // },
     data(){
       return{
         allposts: [],
@@ -152,13 +134,15 @@ export default {
       return res
     })
     this.allposts = response;
-    // response.update(response[response.length-1])
-    // response.push(res[res.length-1]);
     response.reverse();
     console.log(this.allposts);
     console.log(admin);
 },
    methods: {
+     logout() {
+       localStorage.removeItem('user');
+       window.location.href = "http://localhost:5173/";
+     },
      reloadPage() {
        window.location.reload();
      },
