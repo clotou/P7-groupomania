@@ -155,11 +155,7 @@ export default {
         });
 
         console.log(response);
-        let postObject = response;
-
-        localStorage.setItem("post", postObject);
-        let post = localStorage.getItem("post");
-
+        let post = response;
         // window.location.href = "/home";
       } catch (e) {
         console.log("ERROR : ", e);
