@@ -19,13 +19,17 @@
           <div class="bt-bar">
             <div class="picture-bt-container">
               <button class="regular-button picture-bt">
-                <input type="file" name="imageUrl" id="imageUrl"/>
+                <input type="file" @change="previewImage" name="imageUrl" id="imageUrl" accept="image/*"/>
                 <img
                   src="../../public/ICONE_PICTURE.png"
                   alt="icone picture"
                   class="icone-picture"
                 />
               </button>
+              <div class="image-preview">
+                <img class="preview" :src="imageData">
+              </div>
+
               <small>format accepté: png, jpg, jpeg</small>
             </div>
           </div>
@@ -51,6 +55,8 @@
 
 <script>
 import { isTemplateNode } from '@vue/compiler-core';
+//import { buffer } from 'stream/consumers';
+// import axios from 'axios'
 //retrieve token
 var retrieveObject = localStorage.getItem('tokenObject');
 console.log('retrieveObject: ', JSON.parse(retrieveObject))
@@ -69,52 +75,62 @@ export default {
     return{
       title: "",
       date: "",
+      imageData: undefined,
       imageUrl: "",
       userId: "",
       firstName: "",
       lastName: "",
       likes: 0,
       usersLiked: [],
+      selectedFile: null
       }
   },
   methods: {
     reload() {
       location.reload(true);
     },
-    uploadImage() {
-      const file = document.querySelector('input[type=file]').files[0]
-      const reader = new FileReader()
+    previewImage(event) {
+      // Reference to the DOM input element
+      var input = event.target;
+      // Ensure that you have a file before attempting to read it
+      if (input.files && input.files[0]) {
+        // create a new FileReader to read this image and convert to base64 format
+        var reader = new FileReader();
+        // Define a callback function to run, when FileReader finishes its job
+        reader.onload = (e) => {
+          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+          // Read image as base64 and set to imageData
+          this.imageData = e.target.result;
+        };
+        // Start the reader job - read file as a data url (base64 format)
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+//     uploadImage() {
+//       const file = document.querySelector('input[type=file]').files[0]
+//       const reader = new FileReader()
 
-      const rawImg = reader.readAsDataURL(file)
-      console.log(file)
-      console.log(rawImg)
-},
+//       const rawImg = reader.readAsDataURL(file)
+//       console.log(file)
+//       console.log(rawImg)
+// },
     sendPost() {
 
       var image = document.querySelector('input[type="file"]')
-
-      // var option = new FormData()
-      //   option.append('title', this.title)
-      //   option.append('date', new Date())
-      //   option.append('imageUrl', image.files[0])
-      //   option.append('userId', localStorage.getItem('user'))
-      //   option.append('like', this.likes)
-      //   option.append('unserLiked', this.userLiked);
       var newDate = new Date();
       var today = newDate.toLocaleDateString("fr");
 
       var option = {
         title: this.title,
         date: new Date(),
-        imageUrlLocal: JSON.stringify(image.files[0]),
+        imageBase64: this.imageData,
+        // imageUrlLocal: JSON.stringify(image.files[0]),
         userId: localStorage.getItem('user'),
         firstName: localStorage.getItem('firstName'),
         lastName: localStorage.getItem('lastName'),
         likes: this.likes,
         usersLiked: this.userLiked
       };
-
-      console.log("imaaaaaage", image.files[0])
 
       fetch(`http://localhost:3000/api/posts`, {
         method: 'POST',

@@ -18,6 +18,7 @@
           </div>
           <div class="picture-container">
             <img v-bind:src="post.imageUrl" alt="" class="picpost">
+
             <!-- <img src="../../public/marcantoine.png" alt="l'image publiée" class="picpost"> -->
           </div>
         </div>
@@ -26,13 +27,18 @@
           <div class="like-side">
             <!-- <p id="likes">{{post.likes}}</p> -->
             <p id="likes">{{ post.usersLiked.length }}</p>
-            <img v-if="likes === 1" src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb"
-              @click="likedislike()" />
-            <img v-else src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" @click="likedislike()" />
+            <div v-if="likes === 1"
+              @click="likedislike(userId, usersLiked)">
+              <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb" />
           </div>
+            <div v-else @click="likedislike(userId, usersLiked)" >
+              <img src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" />
+            </div>
+          </div>
+
           <div class="button-side">
             <div>
-              <input v-if="userId == post.userId || (admin = true)" type="button" class="regular-button btn pink-bt"
+              <input v-if="admin || (userId == post.userId)" type="button" class="regular-button btn pink-bt"
                 value="Modifier" id="openModal" @click="showModal(post)">
             </div>
 
@@ -78,7 +84,7 @@
   </div>
 </div>
 
-            <input v-if="userId == post.userId || admin" type="button" class="regular-button red-bt" id="supprimer"
+            <input v-if="admin || (userId == post.userId)" type="button" class="regular-button red-bt" id="supprimer"
               value="Supprimer" @click="deletePost(post._id)">
         </div>
       </div>
@@ -108,6 +114,7 @@ export default {
         admin: localStorage.getItem('admin'),
         title: "",
         date: "",
+        // imageBase64: buffer,
         imageUrl: "",
         userId: localStorage.getItem('user'),
         likes: 0,
@@ -196,13 +203,18 @@ export default {
             this.allposts.splice(index, 1);
         }
       },
-      likedislike() {
-        if(likes == 1) {
-          likes == 0
-        } else {
-          likes == 1
-        }
-      }
+     likedislike(userId, usersLiked) {
+      console.log(id);
+      console.log(post.usersLiked);
+      console.log(post.likes);
+       if(likes == 0) {
+         post.usersLiked.add(id);
+         post.likes == 1
+       } else if (likes == 1){
+         var idIndex = post.usersLiked.indexOf(id);
+         delete post.usersLiked[idIndex]
+       }
+     },
     }
   }
 </script>
