@@ -16,8 +16,9 @@
             <h2 id="title">{{ post.title }}</h2>
             <!-- <h2 id="title">Marc et Antoine du markeitng grillés en pause café</h2> -->
           </div>
-          <div class="picture-container">
-            <img v-bind:src="post.imageUrl" alt="" class="picpost">
+          <div v-if="post.imageBase64" class="picture-container">
+   
+            <img v-bind:src="post.imageBase64" alt="" class="picpost">
 
             <!-- <img src="../../public/marcantoine.png" alt="l'image publiée" class="picpost"> -->
           </div>
@@ -141,6 +142,7 @@ export default {
       return res
     })
     this.allposts = response;
+
     response.reverse();
     console.log(this.allposts);
     console.log(admin);

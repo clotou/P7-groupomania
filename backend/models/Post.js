@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = mongoose.Schema({
   title: { type: String, required: true },
   date: { type: Date, default: Date.now, required: true },
-  imageBase64: {type: Buffer },
+  imageBase64: {type: String },
   userId: { type: String, required: true },
   firstName: { type: String, required: true},
   lastName: { type: String, required: true},
