@@ -38,11 +38,10 @@
                 class="icone-picture"
               />
             </button>
+            <small>format accepté: png, jpg, jpeg</small>
             <div class="image-preview">
               <img class="preview" :src="imageData" />
             </div>
-
-            <small>format accepté: png, jpg, jpeg</small>
           </div>
         </div>
         <div class="bt-bar">
@@ -93,7 +92,6 @@ export default {
       title: "",
       date: "",
       imageData: undefined,
-      imageUrl: "",
       userId: "",
       firstName: "",
       lastName: "",
@@ -103,6 +101,10 @@ export default {
     };
   },
   methods: {
+    logout() {
+      localStorage.removeItem('user');
+      window.location.href = "http://localhost:5173/";
+    },
     reload() {
       location.reload(true);
     },
@@ -123,21 +125,12 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-    //     uploadImage() {
-    //       const file = document.querySelector('input[type=file]').files[0]
-    //       const reader = new FileReader()
-
-    //       const rawImg = reader.readAsDataURL(file)
-    //       console.log(file)
-    //       console.log(rawImg)
-    // },
     async sendPost() {
       try {
         var option = {
           title: this.title,
           date: new Date(),
           imageBase64: this.imageData,
-          // imageUrlLocal: JSON.stringify(image.files[0]),
           userId: localStorage.getItem("user"),
           firstName: localStorage.getItem("firstName"),
           lastName: localStorage.getItem("lastName"),

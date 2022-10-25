@@ -4,23 +4,18 @@
       <div class="post-block-up" v-for="(post, index) in allposts" :key="post._id">
         <div class="name-container">
           <p>{{ post.firstName }} {{ post.lastName }}</p>
-          <!-- <p>Marie D</p> -->
         </div>
         <div class="post-container posted-post-spaces">
           <div class="date-container">
-            <!-- createdAt ? -->
             <h3>{{ dateCreated(post.date) }}</h3>
-            <!-- <h3>22/07/22 - 10:20</h3> -->
           </div>
           <div class="title-container">
             <h2 id="title">{{ post.title }}</h2>
-            <!-- <h2 id="title">Marc et Antoine du markeitng grillés en pause café</h2> -->
           </div>
           <div v-if="post.imageBase64" class="picture-container">
-   
+
             <img v-bind:src="post.imageBase64" alt="" class="picpost">
 
-            <!-- <img src="../../public/marcantoine.png" alt="l'image publiée" class="picpost"> -->
           </div>
         </div>
 
@@ -39,7 +34,7 @@
 
           <div class="button-side">
             <div>
-              <input v-if="admin || (userId == post.userId)" type="button" class="regular-button btn pink-bt"
+              <input v-if="(admin == 'true') || (userId == post.userId)" type="button" class="regular-button btn pink-bt"
                 value="Modifier" id="openModal" @click="showModal(post)">
             </div>
 
@@ -58,18 +53,21 @@
       </header>
 
       <slot name="body">
-        <form action="" method="put" id="form">
+        <form action="" method="put" id="form" ref="updateForm">
           <div class="textarea-container">
             <textarea name="title" id="title" class="textarea" placeholder="" v-model="currentPost.title"></textarea>
           </div>
           <div class="bt-bar">
-            <div class="picture-bt-container">
-              <button class="regular-button picture-bt">
-                <input type="file" name="imageUrl" id="imageUrl" />
-                <img src="../../public/ICONE_PICTURE.png" alt="icone picture" class="icone-picture" />
-              </button>
-              <small>format accepté: png, jpg, jpeg</small>
-            </div>
+<div class="picture-bt-container">
+  <button class="regular-button picture-bt">
+    <input type="file" @change="previewImage" name="imageUrl" id="imageUPdate" accept="image/*"/>
+    <img src="../../public/ICONE_PICTURE.png" alt="icone picture" class="icone-picture"/>
+  </button>
+  <small>format accepté: png, jpg, jpeg</small>
+  <div class="image-preview">
+    <img class="preview" :src="imageData" />
+  </div>
+</div>
           </div>
         </form>
       </slot>
@@ -115,8 +113,7 @@ export default {
         admin: localStorage.getItem('admin'),
         title: "",
         date: "",
-        // imageBase64: buffer,
-        imageUrl: "",
+        imageData: undefined,
         userId: localStorage.getItem('user'),
         likes: 0,
         usersLiked: [],
@@ -148,10 +145,6 @@ export default {
     console.log(admin);
 },
    methods: {
-     logout() {
-       localStorage.removeItem('user');
-       window.location.href = "http://localhost:5173/";
-     },
      reloadPage() {
        window.location.reload();
      },
@@ -163,6 +156,23 @@ export default {
      closeModal() {
        this.isModalVisible = false;
        console.log($emit('close'))
+     },
+     previewImage(event) {
+       // Reference to the DOM input element
+       var input = event.target;
+       // Ensure that you have a file before attempting to read it
+       if (input.files && input.files[0]) {
+         // create a new FileReader to read this image and convert to base64 format
+         var reader = new FileReader();
+         // Define a callback function to run, when FileReader finishes its job
+         reader.onload = (e) => {
+           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+           // Read image as base64 and set to imageData
+           this.imageData = e.target.result;
+         };
+         // Start the reader job - read file as a data url (base64 format)
+         reader.readAsDataURL(input.files[0]);
+       }
      },
       dateCreated(date) {
         return dayjs(date).locale('fr').format("dddd D MMMM YYYY", "fr");
@@ -176,9 +186,10 @@ export default {
               },
           body: JSON.stringify({
             title: currentPost.title,
-            imageUrl: currentPost.imageUrl,
+            imageBase64: this.imageData,
               }),})
         .then(response => {
+          // this.$refs.updateForm.reset();
           console.log(response);
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
@@ -206,7 +217,7 @@ export default {
         }
       },
      likedislike(userId, usersLiked) {
-      console.log(id);
+       console.log(userId);
       console.log(post.usersLiked);
       console.log(post.likes);
        if(likes == 0) {
