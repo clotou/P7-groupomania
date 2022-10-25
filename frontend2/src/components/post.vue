@@ -85,7 +85,7 @@
   </div>
 </div>
 
-            <input v-if="admin || (userId == post.userId)" type="button" class="regular-button red-bt" id="supprimer"
+            <input v-if="(admin=='true') || (userId == post.userId)" type="button" class="regular-button red-bt" id="supprimer"
               value="Supprimer" @click="deletePost(post._id)">
         </div>
       </div>
