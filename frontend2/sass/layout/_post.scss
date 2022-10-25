@@ -2,20 +2,25 @@
     position: relative;
     top: 100px;
     z-index: -1;
-    width: 50%;
+    width: 70%;
     margin: auto;
   }
 
 .publishPost {
   display: flex;
+  margin: auto;
+  padding-bottom: 30px;
 }
 
+.allposts {
+  margin: 10px 0 0 10px;
+}
 .post {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: auto;
-
+  padding: 20px 0 20px 0;
 }
 .posts {
   width: 100%;
@@ -26,9 +31,11 @@
 }
 .posted-post-spaces {
 padding: 30px 0 0 0;
+//max-width: 800px;
 }
 .name-container{
   width: 15%;
+  padding-top: 27px;
 }
 .post-block-up {
   display: flex;
@@ -41,6 +48,7 @@ padding: 30px 0 0 0;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  //max-width: 800px;
 }
 
 .date-container {
@@ -85,8 +93,15 @@ padding: 30px 0 0 0;
   margin-left: 5px;
 }
 
+img.preview {
+  width: 200px;
+  background-color: white;
+  border: 1px solid #DDD;
+  padding: 5px;
+}
  @media screen and (max-width: 900px) {
   .wall {
+    width: 100%;
     position: absolute;
     top: 80px;
   }
@@ -95,9 +110,6 @@ padding: 30px 0 0 0;
     width: 90%;
     flex-direction: column;
   }
- .publishPost{
-    margin-left: 10px;
- }
   .post-container {
     width: 100%
   }
@@ -106,6 +118,7 @@ padding: 30px 0 0 0;
   }
 .posted-post-spaces {
   padding: 10px 0 0 0;
+  //max-width: 100%;
 }
 .post-block-up {
   display: inline-block
@@ -122,6 +135,7 @@ padding: 30px 0 0 0;
 
 .name-container {
   width: 100%;
+  padding-top: 0;
 }
 .post-container {
   width: 100%;
@@ -129,10 +143,4 @@ padding: 30px 0 0 0;
 .like-side {
   margin-left: 0;
 }
- }
-img.preview {
-   width: 200px;
-   background-color: white;
-   border: 1px solid #DDD;
-   padding: 5px;
- }
+}

@@ -216,16 +216,16 @@ export default {
             this.allposts.splice(index, 1);
         }
       },
-     likedislike(userId, usersLiked) {
+     likedislike(userId) {
        console.log(userId);
-      console.log(post.usersLiked);
-      console.log(post.likes);
+      console.log(this.usersLiked);
+      console.log(this.likes);
        if(likes == 0) {
-         post.usersLiked.add(id);
-         post.likes == 1
-       } else if (likes == 1){
-         var idIndex = post.usersLiked.indexOf(id);
-         delete post.usersLiked[idIndex]
+         this.usersLiked.add(id);
+         this.likes == 1
+       } else if (this.likes == 1){
+         var idIndex = this.usersLiked.indexOf(id);
+         delete this.usersLiked[idIndex]
        }
      },
     }

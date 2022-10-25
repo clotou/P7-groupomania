@@ -48,18 +48,18 @@
           <div>
             <input
               type="button"
-              class="regular-button"
+              class="regular-button gray-bt"
               id="annuler"
               @click="reload()"
               value="Annuler"
             />
           </div>
-          <div class="blue-bt">
+          <div>
             <input
               type="button"
               value="Post"
               id="post"
-              class="regular-button"
+              class="regular-button post-btn"
               @click="sendPost()"
             />
           </div>
