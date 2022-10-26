@@ -142,7 +142,7 @@ export default {
 
         console.log(response);
         let post = response;
-        // window.location.href = "/home";
+        window.location.href = "/home";
       } catch (e) {
         console.log("ERROR : ", e);
       }
