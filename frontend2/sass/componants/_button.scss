@@ -6,6 +6,9 @@
   font-size: 16px;
   border-radius: 5px;
   margin-top: 10px;
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
 }
 .bt-bar {
   width: 100%;
@@ -13,12 +16,9 @@
   justify-content: space-between;
 }
 
-.post-btn {
+.blue-btn {
   background-color: $color-primary;
   color: white;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  }
 }
 
 .gray-bt {
@@ -40,9 +40,9 @@
   background-color: $color-tertiary;
   color: white;
   margin-left: 5px;
-  &:hover {
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    }
+  // &:hover {
+  //     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  //   }
 }
 
 .picture-bt {

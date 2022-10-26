@@ -47,7 +47,7 @@ exports.getAllPosts = (req, res, next)=> {
 };
 
 exports.like = (req, res, next) => {
-    if (req.body.like === 1) {
+    if (req.body.likes === 1) {
         Post.updateOne({_id: req.params.id}, {
           $inc: {likes: +1},
           //usersLiked: req.body.userId })

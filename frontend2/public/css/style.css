@@ -151,17 +151,18 @@ h3 {
   font-size: 16px;
   border-radius: 5px;
   margin-top: 10px; }
+  .regular-button:hover,
+  .regular-button input[type=submit]:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; }
 
 .bt-bar {
   width: 100%;
   display: flex;
   justify-content: space-between; }
 
-.post-btn {
+.blue-btn {
   background-color: #4E5166;
   color: white; }
-  .post-btn:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; }
 
 .gray-bt {
   background-color: #D9D9D9;
@@ -179,8 +180,6 @@ h3 {
   background-color: #FD2D01;
   color: white;
   margin-left: 5px; }
-  .red-bt:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; }
 
 .picture-bt {
   margin-top: 20px;
@@ -240,7 +239,7 @@ small {
   position: relative;
   top: 100px;
   z-index: -1;
-  width: 70%;
+  width: 50%;
   margin: auto; }
 
 .publishPost {

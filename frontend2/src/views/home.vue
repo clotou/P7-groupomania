@@ -14,7 +14,6 @@
 <script>
   import post from "../components/post.vue"
   import publish from "../components/publish.vue"
-  import axios from 'axios'
 
 
   export default {

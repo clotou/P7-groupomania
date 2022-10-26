@@ -24,10 +24,10 @@
             <!-- <p id="likes">{{post.likes}}</p> -->
             <p id="likes">{{ post.usersLiked.length }}</p>
             <div v-if="likes === 1"
-              @click="likedislike(userId, usersLiked)">
+              @click="likedislike(userId)">
               <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb" />
           </div>
-            <div v-else @click="likedislike(userId, usersLiked)" >
+            <div v-else @click="likedislike(userId)" >
               <img src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" />
             </div>
           </div>
@@ -216,17 +216,70 @@ export default {
             this.allposts.splice(index, 1);
         }
       },
-     likedislike(userId) {
-       console.log(userId);
-      console.log(this.usersLiked);
-      console.log(this.likes);
-       if(likes == 0) {
-         this.usersLiked.add(id);
-         this.likes == 1
-       } else if (this.likes == 1){
-         var idIndex = this.usersLiked.indexOf(id);
-         delete this.usersLiked[idIndex]
+     async sendPost() {
+       try {
+         var option = {
+           title: this.title,
+           date: new Date(),
+           imageBase64: this.imageData,
+           userId: localStorage.getItem("user"),
+           firstName: localStorage.getItem("firstName"),
+           lastName: localStorage.getItem("lastName"),
+           likes: this.likes,
+           usersLiked: this.userLiked,
+         };
+
+         let response = await fetch(`http://localhost:3000/api/posts`, {
+           method: "POST",
+           headers: {
+             "Content-type": "application/json",
+             Authorization: `Bearer ${tokenObject.token}`,
+           },
+           body: JSON.stringify(option),
+         });
+
+         console.log(response);
+         let post = response;
+         // window.location.href = "/home";
+       } catch (e) {
+         console.log("ERROR : ", e);
        }
+     },
+     async likedislike(userId) {
+       console.log(userId);
+       console.log(this.likes);
+       console.log(this.usersLiked);
+       try {
+         var option = {
+           userId: userId,
+           likes: this.likes,
+           usersLiked: this.usersLiked,
+         };
+
+         let response = await fetch(`http://localhost:3000/api/posts/${userId}/like`, {
+           method: "POST",
+           headers: {
+             "Content-type": "application/json",
+             Authorization: `Bearer ${tokenObject.token}`,
+           },
+           body: JSON.stringify(option),
+         });
+         console.log(response.body);
+         console.log(userId);
+         console.log(this.usersLiked);
+         console.log(this.likes);
+        //  if (likes == 0) {
+        //    this.usersLiked.add(id);
+        //    this.likes == 1
+        //  } else if (this.likes == 1) {
+        //    var idIndex = this.usersLiked.indexOf(id);
+        //    delete this.usersLiked[idIndex]
+        //  }
+         // window.location.href = "/home";
+       } catch (e) {
+         console.log("ERROR : ", e);
+       }
+
      },
     }
   }

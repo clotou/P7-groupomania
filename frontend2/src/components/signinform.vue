@@ -18,8 +18,8 @@
               <p id="passwordErrorMsg"></p>
             </div>
             <div class="submit-section">
-              <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-                <input type="button" value="SingIn" id="signIn" @click="sendSignin()"/>
+              <div class="log__form__submit--signIn">
+                <input  class="log-links regular-button blue-btn" type="button" value="SingIn" id="signIn" @click="sendSignin()"/>
               </div>
             </div>
           </form>

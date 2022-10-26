@@ -7,6 +7,12 @@ const postRoute = require('./routes/post');
 const userRoute = require('./routes/user');
 const path = require('path');
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+// var bodyParser = require('body-parser');
+// router.use(bodyParser.json({ limit: '50mb' }));
+// router.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
 mongoose.connect('mongodb+srv://clotou:Levivet63@cluster0.k4jpk.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
