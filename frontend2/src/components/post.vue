@@ -21,14 +21,15 @@
 
         <div class="post-block-bottom">
           <div class="like-side">
-            <!-- <p id="likes">{{post.likes}}</p> -->
+
             <p id="likes">{{ post.usersLiked.length }}</p>
-            <div v-if="likes === 1"
-              @click="likedislike(userId)">
-              <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb" />
-          </div>
-            <div v-else @click="likedislike(userId)" >
-              <img src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb" />
+
+            <div v-if="post.likes === 1"
+              @click="likedislike(post._id, 0)">
+              <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb"/>
+            </div>
+            <div v-else @click="likedislike(post._id, 1)">
+              <img src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb"/>
             </div>
           </div>
 
@@ -100,7 +101,6 @@ import { VueElement } from 'vue';
 var retrieveObject = localStorage.getItem('tokenObject');
 var tokenObject = JSON.parse(retrieveObject);
 var admin = localStorage.getItem('admin');
-console.log(admin)
 
 export default {
 
@@ -135,14 +135,14 @@ export default {
       }
     })
     .then(function (res) {
-      console.log(res);
+      // console.log(res);
       return res
     })
     this.allposts = response;
 
     response.reverse();
-    console.log(this.allposts);
-    console.log(admin);
+    // console.log(this.allposts);
+    // console.log(admin);
 },
    methods: {
      reloadPage() {
@@ -210,7 +210,6 @@ export default {
         })
             .then(res => {
               return res.json()
-
             })
             .then(data => console.log(data))
             this.allposts.splice(index, 1);
@@ -245,18 +244,17 @@ export default {
          console.log("ERROR : ", e);
        }
      },
-     async likedislike(userId) {
-       console.log(userId);
-       console.log(this.likes);
-       console.log(this.usersLiked);
+     async likedislike(postId, like) {
+       console.log('like:', like);
        try {
          var option = {
-           userId: userId,
-           likes: this.likes,
-           usersLiked: this.usersLiked,
+           userId: localStorage.getItem("user"),
+           likes: like,
          };
 
-         let response = await fetch(`http://localhost:3000/api/posts/${userId}/like`, {
+         console.log('option:', option);
+         console.log('postId:', postId);
+         let response = await fetch(`http://localhost:3000/api/posts/${postId}/like`, {
            method: "POST",
            headers: {
              "Content-type": "application/json",
@@ -264,17 +262,12 @@ export default {
            },
            body: JSON.stringify(option),
          });
-         console.log(response.body);
-         console.log(userId);
-         console.log(this.usersLiked);
-         console.log(this.likes);
-        //  if (likes == 0) {
-        //    this.usersLiked.add(id);
-        //    this.likes == 1
-        //  } else if (this.likes == 1) {
-        //    var idIndex = this.usersLiked.indexOf(id);
-        //    delete this.usersLiked[idIndex]
-        //  }
+         console.log(option);
+         if(this.usersLiked.indexOf(postId) != null){
+          like == 0;
+        } else {
+          like == 1;
+        };
          // window.location.href = "/home";
        } catch (e) {
          console.log("ERROR : ", e);
