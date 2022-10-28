@@ -2,11 +2,7 @@ const Post = require('../models/Post')
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
-console.log(req.body);
    const postObject = req.body;
-console.log(postObject);
-console.log(req.protocol);
-
    delete postObject._id;
    const post = new Post({
        ...postObject,
@@ -50,7 +46,6 @@ exports.like = (req, res, next) => {
     if (req.body.likes === 1) {
         Post.updateOne({_id: req.params.id}, {
           $inc: {likes: +1},
-          //usersLiked: req.body.userId })
           $push:
             { usersLiked: req.body.userId }})
             .then(post => res.status(200).json({message: 'Like ajouté !'}))

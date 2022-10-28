@@ -9,11 +9,12 @@
 - mongoose-unique-validator
 - express
 
-terminal -> frontend:
-
-- npm install + npx serve (pour mac) ou npm run serve
-- npm run sass
+- npm install
 
 terminale -> backend
 
-- npm install + npx nodemon (pour mac) ou nodemon server
+- npx nodemon (pour mac) ou nodemon server
+
+terminale -> frontend
+
+- npm run dev
