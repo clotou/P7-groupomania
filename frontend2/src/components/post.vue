@@ -24,7 +24,7 @@
 
             <p id="likes">{{ post.usersLiked.length }}</p>
 
-            <div v-if="post.likes === 1"
+            <div v-if="post.usersLiked.indexOf(userId) >= 0"
               @click="likedislike(post._id, 0)">
               <img src="../../public/thumbs-up-black-icon.webp" alt="thumb-up" class="thumb"/>
             </div>
@@ -32,14 +32,12 @@
               <img src="../../public/thumbs-up-empty.png" alt="empty-thumb-up" class="thumb"/>
             </div>
           </div>
-
           <div class="button-side">
             <div>
               <input v-if="(admin == 'true') || (userId == post.userId)" type="button" class="regular-button btn pink-bt"
                 value="Modifier" id="openModal" @click="showModal(post)">
             </div>
 
-            <!-- <Modal v-show="isModalVisible" @close="closeModal"/> -->
 <!-- début de la modale-->
 <div v-show="isModalVisible">
   <div class="modal-backdrop">
@@ -96,7 +94,6 @@
 <script>
 import * as dayjs from 'dayjs'
 import 'dayjs/locale/fr'
-import { VueElement } from 'vue';
 
 var retrieveObject = localStorage.getItem('tokenObject');
 var tokenObject = JSON.parse(retrieveObject);
@@ -135,14 +132,10 @@ export default {
       }
     })
     .then(function (res) {
-      // console.log(res);
       return res
     })
     this.allposts = response;
-
     response.reverse();
-    // console.log(this.allposts);
-    // console.log(admin);
 },
    methods: {
      reloadPage() {
@@ -189,7 +182,6 @@ export default {
             imageBase64: this.imageData,
               }),})
         .then(response => {
-          // this.$refs.updateForm.reset();
           console.log(response);
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
@@ -227,7 +219,6 @@ export default {
            likes: this.likes,
            usersLiked: this.userLiked,
          };
-
          let response = await fetch(`http://localhost:3000/api/posts`, {
            method: "POST",
            headers: {
@@ -236,24 +227,18 @@ export default {
            },
            body: JSON.stringify(option),
          });
-
          console.log(response);
          let post = response;
-         // window.location.href = "/home";
        } catch (e) {
          console.log("ERROR : ", e);
        }
      },
      async likedislike(postId, like) {
-       console.log('like:', like);
        try {
          var option = {
            userId: localStorage.getItem("user"),
            likes: like,
          };
-
-         console.log('option:', option);
-         console.log('postId:', postId);
          let response = await fetch(`http://localhost:3000/api/posts/${postId}/like`, {
            method: "POST",
            headers: {
@@ -262,17 +247,19 @@ export default {
            },
            body: JSON.stringify(option),
          });
-         console.log(option);
-         if(this.usersLiked.indexOf(postId) != null){
-          like == 0;
-        } else {
-          like == 1;
-        };
-         // window.location.href = "/home";
+         for (const post of this.allposts) {
+          if(post._id == postId) {
+            if(like == 1) {
+              post.usersLiked.push(this.userId);
+            } else {
+              const userLikedIndex=post.usersLiked.indexOf(this.userId);
+              post.usersLiked.splice(userLikedIndex,1);
+            }
+          }
+         }
        } catch (e) {
          console.log("ERROR : ", e);
        }
-
      },
     }
   }
