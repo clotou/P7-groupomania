@@ -71,19 +71,10 @@
 
 <script>
 import { isTemplateNode } from "@vue/compiler-core";
-//import { buffer } from 'stream/consumers';
-// import axios from 'axios'
-//retrieve token
 var retrieveObject = localStorage.getItem("tokenObject");
-// console.log("retrieveObject: ", JSON.parse(retrieveObject));
 var tokenObject = JSON.parse(retrieveObject);
-
-//retrieve firstName
 var firstName = localStorage.getItem("firstName");
-// console.log(firstName);
-//retrieve lastName
 var lastName = localStorage.getItem("lastName");
-// console.log(lastName);
 
 export default {
   name: "post",

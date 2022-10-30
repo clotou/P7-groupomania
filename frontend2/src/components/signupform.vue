@@ -47,8 +47,7 @@ export default {
       firstName: "",
       lastName: "",
       email:"",
-      password:"",
-      // admin: false
+      password:""
     }
   },
   methods: {
@@ -71,19 +70,10 @@ export default {
           lastName: this.lastName,
           email: this.email,
           password: this.password,
-         // admin: this.admin
         }),
       })
       .then(response => {
-        // console.log(this.firstName)
-        // console.log(this.lastName)
-        // console.log(this.admin)
         let reponse = response.data;
-
-
-        // localStorage.setItem('firstName', this.firstName);
-        // localStorage.setItem('lastName', this.lastName);
-        // localStorage.setItem('admin', this.admin);
 
         window.location.href = "/";
       })

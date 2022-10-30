@@ -31,7 +31,6 @@
 }
 .posted-post-spaces {
 padding: 30px 0 0 0;
-//max-width: 800px;
 }
 .name-container{
   width: 15%;
@@ -48,7 +47,6 @@ padding: 30px 0 0 0;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
-  //max-width: 800px;
 }
 
 .date-container {
@@ -66,7 +64,6 @@ padding: 30px 0 0 0;
   border-radius: 8px;
   position: relative;
   bottom: 6px;
-  // z-index: 1;
   >h2 {
     padding: 8px 8px 12px 8px;
     color: black;
@@ -116,31 +113,30 @@ img.preview {
   .postSpaces {
     padding: 10px 0;
   }
-.posted-post-spaces {
-  padding: 10px 0 0 0;
-  //max-width: 100%;
-}
-.post-block-up {
-  display: inline-block
-}
- >p {
-   margin-right: 20px;
-   color: #4E5166;
- }
+  .posted-post-spaces {
+    padding: 10px 0 0 0;
+  }
+  .post-block-up {
+    display: inline-block
+  }
+  >p {
+    margin-right: 20px;
+    color: #4E5166;
+  }
 
- * {
-   margin: 0px;
-   padding: 0px;
- }
+  * {
+    margin: 0px;
+    padding: 0px;
+  }
 
-.name-container {
-  width: 100%;
-  padding-top: 0;
-}
-.post-container {
-  width: 100%;
-}
-.like-side {
-  margin-left: 0;
-}
+  .name-container {
+    width: 100%;
+    padding-top: 0;
+  }
+  .post-container {
+    width: 100%;
+  }
+  .like-side {
+    margin-left: 0;
+  }
 }

@@ -228,7 +228,6 @@ export default {
            body: JSON.stringify(option),
          });
          console.log(response);
-         let post = response;
        } catch (e) {
          console.log("ERROR : ", e);
        }

@@ -36,7 +36,6 @@ export default {
       return{
         email:"",
         password:"",
-        //admin: localStorage.getItem('admin'),
        }
     },
     methods: {
