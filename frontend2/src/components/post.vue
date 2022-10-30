@@ -143,12 +143,10 @@ export default {
      },
      showModal(post) {
        this.currentPost = post;
-       console.log("THE POST", post._id)
        this.isModalVisible = true;
      },
      closeModal() {
        this.isModalVisible = false;
-       console.log($emit('close'))
      },
      previewImage(event) {
        // Reference to the DOM input element
@@ -182,7 +180,6 @@ export default {
             imageBase64: this.imageData,
               }),})
         .then(response => {
-          console.log(response);
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
 
@@ -191,7 +188,6 @@ export default {
       },
 
       deletePost(id, index) {
-        console.log(index);
         if (confirm("Êtes vous sure de vouloir supprimer ce post?")) {
           fetch(`http://localhost:3000/api/posts/${id}`, {
             method: 'DELETE',

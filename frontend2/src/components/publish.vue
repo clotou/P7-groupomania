@@ -130,7 +130,6 @@ export default {
           },
           body: JSON.stringify(option),
         });
-
         console.log(response);
         let post = response;
         window.location.href = "/home";
