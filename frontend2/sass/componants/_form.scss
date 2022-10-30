@@ -64,11 +64,12 @@ position: relative;
 }
 
 @media screen and (max-width: 900px) {
+.form-container {
+  width: 100%;
+}
+
   .logform-bg {
     padding: 30px 25px;
-    // display: inline-block;
     vertical-align: middle;
-    // align-items: center;
-    top: unset;
   }
 }

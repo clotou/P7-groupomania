@@ -122,10 +122,12 @@ a:active {
   justify-content: space-between; }
 
 @media screen and (max-width: 900px) {
+  .form-container {
+    width: 100%; }
+
   .logform-bg {
     padding: 30px 25px;
-    vertical-align: middle;
-    top: unset; } }
+    vertical-align: middle; } }
 body {
   font-family: 'Lato', sans-serif; }
 
