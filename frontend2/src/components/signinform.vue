@@ -49,7 +49,6 @@ export default {
           "Veuillez saisir votre email et votre mot de passe pour vous connecter"
         );
       } else {
-        console.log(this.email)
         fetch(`http://localhost:3000/api/auth/login`, {
           method: 'POST',
           headers: {
@@ -68,19 +67,10 @@ export default {
         })
         .then(function(res) {
           let response = res.body;
-
-          // let userObject = JSON.stringify(response);
-
-          console.log(response);
           var token = res.token;
-          console.log(token);
 
           var tokenObject = { token };
           localStorage.setItem('tokenObject', JSON.stringify(tokenObject));
-
-          console.log(res.userId);
-          console.log(res.userFirstName);
-
           localStorage.setItem("user", res.userId);
           localStorage.setItem("firstName", res.userFirstName);
           localStorage.setItem("lastName", res.userLastName);

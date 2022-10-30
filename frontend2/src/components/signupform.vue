@@ -29,8 +29,8 @@
             <p id="passwordErrorMsg"></p>
           </div>
           <div class="submit-section">
-            <div class="log__form__submit--signIn regular-button blue-bt" disabled>
-              <input type="submit" value="SingUp" id="signUp" @click="sendSignup()"/>
+            <div class="log__form__submit--signIn" disabled>
+              <input class="log-links regular-button blue-btn" type="button" value="SingUp" id="signUp" @click="sendSignup()"/>
             </div>
           </div>
         </form>
