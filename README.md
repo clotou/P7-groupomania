@@ -1,14 +1,5 @@
 # P7-groupomania
 
-- bcrypt
-- sass
-- multer
-- jsonwebtoken
-- fs
-- mongoose
-- mongoose-unique-validator
-- express
-
 - npm install
 
 terminale -> backend
