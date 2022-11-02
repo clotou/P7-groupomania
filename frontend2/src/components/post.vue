@@ -172,7 +172,6 @@ export default {
         return dayjs(date).locale('fr').format("dddd D MMMM YYYY", "fr");
       },
      updatePost(currentPost) {
-       console.log(localStorage.getItem('admin'));
         fetch(`http://localhost:3000/api/posts/${currentPost._id}`, {
           method: 'PUT',
           headers: {
@@ -185,7 +184,6 @@ export default {
             imageBase64: this.imageData,
               }),})
         .then(response => {
-          console.log(localStorage.getItem('admin'));
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
           this.loadPosts();
@@ -201,6 +199,9 @@ export default {
               'Content-type': 'application/json',
               'Authorization': `Bearer ${tokenObject.token}`
                 },
+            body: JSON.stringify({
+              userId: localStorage.getItem('user'),
+            }),
         })
             .then(res => {
               return res.json()
