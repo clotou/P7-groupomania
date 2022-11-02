@@ -1,4 +1,5 @@
 const Post = require('../models/Post')
+const User = require('../models/User');
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
@@ -15,26 +16,68 @@ exports.createPost = (req, res, next) => {
    .catch(error =>  res.status(400).json({message: "Problème d'enregistrement du post créé !"}))
 };
 
+
 exports.modifyPost = (req, res, next) => {
-  const postObject = req.file ? {
-    ...JSON.parse(req.body.post),
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  } : { ...req.body };
+  const postObject = { ...req.body };
+  console.log(req.params.id);
+    Post.findOne({ _id: req.params.id})
+        .then(post => {
+            if ((post.userId == req.body.userId)) {
+                Post.updateOne({_id: req.params.id}, { imageBase64: postObject.imageBase64, title: postObject.title})
+                    .then(()=> res.status(200).json({message : 'Post modifiée !'}))
+                    .catch(error => res.status(401).json({message : "Problème de mise à jour des données de votre post !" }));
+            } else {
+              User.findOne({ _id: req.body.userId, admin:true })
+                .then ( user => {
+                  console.log('user', user)
+                  if(!user)throw 'non authentifié'
+                  return Post.updateOne({_id: req.params.id}, {imageBase64: postObject.imageBase64, title: postObject.title})
+                    .then(()=> res.status(200).json({message : 'Post modifié !'}))
+                    .catch(error => res.status(401).json({message : "Problème de mise à jour des données de votre post !" }));
+                })
+                .catch(error => res.status(401).json({message: "Vous n'êtes pas autorisé à modifier le post "}))
+            }
+          })
+        .catch(error =>
+          {console.error(error)
+          return res.status(400).json({ message: "Problème d'identification du post !" })
+      })
+    };
 
-if(req.body.userId == postObject.userId) {
-   Post.updateOne({_id: req.params.id}, { ...postObject, _id: req.params.id})
-      .then(()=> res.status(200).json({message : 'Post modifiée !'}))
-      .catch(error => res.status(401).json({message : "Problème de mise à jour des données de votre post !" }));
-  }
-};
+exports.deletePost = (req, res, next) => {
+    const postObject = { ...req.body };
+console.log(req.params.id);
+    Post.findOne({ _id: req.params.id})
+        .then(post => {
+            if ((post.userId == req.body.userId)) {
+                Post.deleteOne({_id: req.params.id})
+                    .then(()=> res.status(200).json({message : 'Post supprimé !'}))
+                    .catch(error => res.status(401).json({message : "Problème de suppression des données de votre post !" }));
+            } else {
+              User.findOne({ _id: req.body.userId, admin:true })
+                .then ( user => {
+                  console.log('user', user)
+                  if(!user)throw 'non authentifié'
+                  return Post.deleteOne({_id: req.params.id})
+                    .then(()=> res.status(200).json({message : 'Post modifiée !'}))
+                    .catch(error => res.status(401).json({message : "Problème de suppression de votre post !" }));
+                })
+                .catch(error => res.status(401).json({message: "Vous n'êtes pas autorisé à supprimer le post "}))
+            }
+          })
+        .catch(error =>
+          {console.error(error)
+          return res.status(400).json({ message: "Problème d'identification du post !" })
+      })
+    };
 
-exports.deletePost =  (req, res, next)=>{
-if(req.body.userId == Post.userId) {
-   Post.deleteOne({_id: req.params.id})
-            .then(() => { res.status(200).json({message: 'Post supprimé !'})})
-            .catch( error => res.status(401).json({ message : "Problème pour récupérer le post à suppprimer !" }));
-}
-};
+// exports.deletePost =  (req, res, next)=>{
+// if(req.body.userId == Post.userId) {
+//    Post.deleteOne({_id: req.params.id})
+//             .then(() => { res.status(200).json({message: 'Post supprimé !'})})
+//             .catch( error => res.status(401).json({ message : "Problème pour récupérer le post à suppprimer !" }));
+// }
+// };
 
 exports.getAllPosts = (req, res, next)=> {
   Post.find()

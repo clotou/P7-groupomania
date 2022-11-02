@@ -93,7 +93,11 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem('user');
+      localStorage.clear();
+      // this.authToken = null;
+      // this.user = null;
+      // localStorage.removeItem('user');
+      // localStorage.removeItem('tokenObject');
       window.location.href = "http://localhost:5173/";
     },
     reload() {
@@ -132,7 +136,8 @@ export default {
         });
         console.log(response);
         let post = response;
-        window.location.href = "/home";
+        this.$emit('created');
+        //window.location.href = "/home";
       } catch (e) {
         console.log("ERROR : ", e);
       }

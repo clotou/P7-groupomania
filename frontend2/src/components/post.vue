@@ -119,25 +119,28 @@ export default {
        }
     },
   created: async function (){
-    const response = await fetch(`http://localhost:3000/api/posts`, {
-    method: 'GET',
-    headers: {
-      'Content-type': 'application/json',
-      'Authorization': `Bearer ${tokenObject.token}`
-    },
-  })
-    .then(function (res) {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .then(function (res) {
-      return res
-    })
-    this.allposts = response;
-    response.reverse();
+    if (!localStorage.getItem('user')) {
+      window.location.href = "http://localhost:5173/";
+    };
+    await this.loadPosts();
 },
    methods: {
+      async loadPosts() {
+       const response = await fetch(`http://localhost:3000/api/posts`, {
+         method: 'GET',
+         headers: {
+           'Content-type': 'application/json',
+           'Authorization': `Bearer ${tokenObject.token}`
+         },
+       })
+         .then(function (res) {
+           if (res.ok) {
+             return res.json();
+           }
+         })
+       this.allposts = response;
+       response.reverse();
+      },
      reloadPage() {
        window.location.reload();
      },
@@ -169,6 +172,7 @@ export default {
         return dayjs(date).locale('fr').format("dddd D MMMM YYYY", "fr");
       },
      updatePost(currentPost) {
+       console.log(localStorage.getItem('admin'));
         fetch(`http://localhost:3000/api/posts/${currentPost._id}`, {
           method: 'PUT',
           headers: {
@@ -176,14 +180,16 @@ export default {
             'Authorization': `Bearer ${tokenObject.token}`
               },
           body: JSON.stringify({
+            userId: localStorage.getItem('user'),
             title: currentPost.title,
             imageBase64: this.imageData,
               }),})
         .then(response => {
+          console.log(localStorage.getItem('admin'));
           let reponse = response.data;
           let postObject = JSON.stringify(reponse);
-
-            window.location.href = "/home";
+          this.loadPosts();
+          this.closeModal()
         })
       },
 

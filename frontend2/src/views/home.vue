@@ -1,13 +1,12 @@
 <template>
 <!-- home -->
   <div class="wall">
-    <publish></publish>
+    <publish @created="refreshPosts"></publish>
   <!-- line -->
     <div class="line-container">
       <hr>
     </div>
-    <post></post>
-
+    <post ref="post"></post>
   </div>
 </template>
 
@@ -21,6 +20,11 @@
     components:{
       publish,
       post
+    },
+    methods: {
+      refreshPosts() {
+        this.$refs.post.loadPosts()
+      }
     }
 }
 </script>
